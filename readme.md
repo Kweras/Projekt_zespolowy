@@ -18,7 +18,7 @@
 
 3. Add `.env` file:
    ```
-   MONGO_ULR='your_mongo_cluster_url'
+   MONGO_URL='your_mongo_cluster_url'
    ```
 
 ---
