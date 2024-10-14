@@ -16,6 +16,11 @@
     }
     ```
 
+3. Add `.env` file:
+   ```
+   MONGO_ULR='your_mongo_cluster_url'
+   ```
+
 ---
 
 ## Client Setup (React)
