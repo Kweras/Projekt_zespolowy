@@ -6,7 +6,7 @@
     ```bash
     mkdir server
     cd server
-    npm install express mongoose cors nodemon
+    npm install express mongoose cors nodemon dotenv
     ```
 
 2. Edit the `package.json` file to add the following script:
