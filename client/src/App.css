@@ -1,3 +1,46 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  min-height: 100vh;
+}
+
+.Home {
   text-align: center;
+}
+
+.userInfo,
+.links {
+  padding-right: 20px;
+  display: flex;
+  margin-top: auto;
+  margin-bottom: auto;
+  gap: 20px;
+}
+
+.userInfo>* {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.site-content {
+  padding: 120px 20px 0 20px;
+}
+
+main {
+  min-height: calc(100vh - 20px);
 }
