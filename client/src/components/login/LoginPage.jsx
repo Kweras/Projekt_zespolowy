@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -18,11 +19,10 @@ const Login = () => {
             });
             if (response.ok) {
                 localStorage.setItem('isLoggedIn', true);
-
                 navigate('/');
                 window.location.reload();
             } else {
-                console.error('Invalid username or password');
+                setError('Invalid username or password');
             }
         } catch (error) {
             console.error('Error logging in', error);
@@ -32,6 +32,7 @@ const Login = () => {
     return (
         <div className="Home">
             <h2>Logowanie</h2>
+            {error && <p>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email">Email</label>
@@ -59,4 +60,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;  

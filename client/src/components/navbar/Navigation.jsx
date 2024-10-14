@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import "./Navigation.css";
 
 const Navigation = () => {
     const navigate = useNavigate();
@@ -10,7 +11,6 @@ const Navigation = () => {
         if (l) {
             setLogged(l);
         }
-
     }, []);
 
     const handleLogout = () => {
@@ -20,23 +20,32 @@ const Navigation = () => {
     };
 
     return (
-        <div className="navbar">
-            <div className="links">
-                <Link to="/" className="color">Strona główna</Link>
+        <header className="site-header">
+            <div className="site-header-section">
+                <p className="logo">Maaaaaster<span>Planer</span></p>
+                {isLoggedIn ? (
+                    <div className="site-header-section">
+                        <Link to="/calendar">Kalendarz</Link>
+                    </div>
+                ) : (
+                    <div className="site-header-section">
+                        <Link to="/">Strona główna</Link>
+                    </div>
+                )}
             </div>
 
             {isLoggedIn ? (
-                <div className="userInfo">
-                    <p>Zalogowano! </p>
+                <div className="site-header-section">
+                    <Link to='/settings'>Ustawienia</Link>
                     <button onClick={handleLogout}>Wyloguj się</button>
                 </div>
             ) : (
-                <div className="userInfo">
+                <div className="site-header-section">
                     <Link to="/register">Rejestracja</Link>
                     <Link to="/login">Logowanie</Link>
                 </div>
             )}
-        </div>
+        </header>
     )
 }
 

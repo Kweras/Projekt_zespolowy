@@ -1,50 +1,55 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const RegisterPage = () => {
     const [nick, setNick] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatedPassword, setRepeatedPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const isValidEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setError('');
+
+        if (password !== repeatedPassword) {
+            setError('Error registering user - passwords are not the same!');
+            return;
+        }
+
+        if (!(email && email.match(isValidEmail))) {
+            setError('Error registering user - wrong email format!');
+            return;
+        }
 
         try {
-            if (password !== repeatedPassword) {
-                console.error('Error registering user - passwords are not the same!');
-            } else if (!(email && email.match(isValidEmail))) {
-                console.error('Error registering user - wrong email format!');
+            const response = await fetch('http://localhost:3001/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nick, email, password }),
+            });
+            if (response.ok) {
+                console.log('User registered successfully');
+                navigate('/login');
             } else {
-                const response = await fetch('http://localhost:3001/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ nick, email, password }),
-                });
-                if (response.ok) {
-                    console.log('User registered successfully');
-                    navigate('/login');
-                } else {
-                    console.error('Error registering user');
-                }
+                setError('Error registering user');
             }
-
         } catch (error) {
             console.error('Error registering user', error);
+            setError('Error registering user');
         }
     };
-
 
     return (
         <div className='Home'>
             <h2>Rejestracja</h2 >
             <form onSubmit={handleSubmit}>
-
+                {error && <p>{error}</p>}
                 <div>
                     <label htmlFor="nick">Nick</label>
                     <input
@@ -94,4 +99,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default RegisterPage;

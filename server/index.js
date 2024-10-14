@@ -4,14 +4,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { UserModel } = require("./models/user");
 
+require('dotenv').config();
 
 const cors = require('cors');
 app.use(express.json());
 app.use(cors());
-mongoose.connect("mongodb+srv://kweras:9p1Mp3aBvxjqcn1M@cluster0.bbcer.mongodb.net/master_planer");
+
+mongoose.connect(process.env.MONGO_URL);
 //My local database name is: master_planer
-
-
 
 app.listen(3001, () => {
   console.log("server is running with nodemon");
