@@ -11,10 +11,9 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect(process.env.MONGO_URL);
-//My local database name is: master_planer
 
 app.listen(3001, () => {
-  console.log("server is running with nodemon");
+  console.log("Server is running with nodemon");
 });
 
 app.get("/getUsers", async (req, res) => {
@@ -27,13 +26,6 @@ app.get("/getUsers", async (req, res) => {
     });
 });
 
-// app.post("/createUser", async (req, res) => {
-//   const obj = req.body;
-//   const newUser = new UserModel(obj);
-//   await newUser.save();
-//   res.json(obj);
-// });
-
 //Rejestracja
 
 app.post('/register', async (req, res) => {
@@ -42,16 +34,16 @@ app.post('/register', async (req, res) => {
     const e = await UserModel.findOne({ email });
     if (e != null) {
       if (e.email == email) {
-        throw new Error("Uzytkownik o podanym email juz istnieje!")
+        throw new Error("User with this email already exists!")
       }
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new UserModel({ nick, email, password: hashedPassword });
     await user.save();
     console.log(req.body)
-    res.status(201).send('Stworzono uzytkownika!');
+    res.status(201).send('Account created');
   } catch (error) {
-    res.status(500).send('Błąd: ' + console.error(error));
+    res.status(500).send('Error: ' + console.error(error));
   }
 });
 
@@ -69,7 +61,7 @@ app.post('/login', async (req, res) => {
       return res.status(400).send('Invalid username or password');
     }
 
-    console.log(user)
+    //console.log(user)
     res.status(200).send('Login successful');
   } catch (error) {
     console.error('Error logging in', error);
@@ -87,12 +79,106 @@ app.post("/createEvent", async (req, res) => {
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found." });
+      return res.status(404).send('User not found');
     }
-    res.json(updatedUser.events);
+    return res.status(200).send('Event created.');
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Error adding event.", error });
+    return res.status(500).send('Error');
+  }
+});
+
+app.get("/getEvents", async (req, res) => {
+  const { _id, type } = req.query;
+
+  if (!_id) {
+    return res.status(400).send('Missing parameters!');
+  }
+
+  try {
+    const user = await UserModel.findById(_id);
+
+    if (!user) {
+      return res.status(404).send('User not found!');
+    }
+    if(type == 0){
+      return res.status(200).json({
+        events: user.events
+      });
+    }
+    else{
+      return res.status(200).json({
+        dated_events: user.dated_events
+      });
+    }
+    
+  } catch (error) {
+    console.error("Error retrieving events:", error);
+    return res.status(500).send('ERROR!!!');
+  }
+});
+
+
+
+app.post("/updateEvent", async (req, res) => {
+  const { _id, _eventId, updatedEvent } = req.body;
+  if (!_id || !_eventId || !updatedEvent) {
+    return res.status(400).send('Missing parameters!');
+  }
+  
+  try {
+    const user = await UserModel.findById(_id);
+    
+    if (!user) {
+      return res.status(404).send('User not found!');
+    }
+
+    const eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+    //finxIndex returns -1 if it found nothing
+
+    if (eventIndex === -1) {
+      return res.status(404).send('Event not found!');
+    }
+
+    Object.assign(user.events[eventIndex], updatedEvent);
+    
+    await user.save();
+
+    return res.status(200).send('Event updated.');
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('ERROR!!!');
+  }
+});
+
+
+app.post("/deleteEvent", async (req, res) => {
+  const { _id, _eventId } = req.body;
+  if (!_id || !_eventId) {
+    return res.status(400).send('Missing parameters!');
+  }
+  
+  try {
+    const user = await UserModel.findById(_id);
+    
+    if (!user) {
+      return res.status(404).send('User not found!');
+    }
+
+    const eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+
+    if (eventIndex === -1) {
+      return res.status(404).send('Event not found!');
+    }
+
+    user.events.splice(eventIndex, 1);
+    
+    await user.save();
+
+    return res.status(200).send('Event deleted.');
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('ERROR!!!');
   }
 });

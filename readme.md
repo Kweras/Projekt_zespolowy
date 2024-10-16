@@ -16,7 +16,7 @@
     }
     ```
 
-3. Add `.env` file:
+3. Add `.env` file with following line:
    ```
    MONGO_URL='your_mongo_cluster_url'
    ```
@@ -35,6 +35,10 @@
 2. Install Axios for making HTTP requests:
     ```bash
     npm install axios
+    ```
+3. And routing:
+    ```bash
+    npm install react-router-dom --save
     ```
 
 ---
@@ -64,12 +68,3 @@
     ```
 
 ---
-
-## Git Ignore Configuration
-
-To prevent tracking the following directories in Git, create a `.gitignore` file with the following content:
-```
-/client/node_modules
-/server/node_modules
-```
-Modules take over 300 MB so i decided to write a project setup instead

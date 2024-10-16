@@ -1,7 +1,0 @@
-zrobiłem puki co 
-- schemat bazydanych (/server/models/user.js)
-- dodawanie użytkownika
-- widok użytkowników i eventów
-- dodawanie eventa 
-jest prawie 0 zabezpieczeń przed błędami obecnie 
-edycji NIE MA (jeszcze)
