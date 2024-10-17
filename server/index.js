@@ -16,15 +16,7 @@ app.listen(3001, () => {
   console.log("Server is running with nodemon");
 });
 
-app.get("/getUsers", async (req, res) => {
-  UserModel.find({})
-    .then(result => {
-      res.json(result);
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
-});
+
 
 //Rejestracja
 
@@ -122,27 +114,37 @@ app.get("/getEvents", async (req, res) => {
 
 
 app.post("/updateEvent", async (req, res) => {
-  const { _id, _eventId, updatedEvent } = req.body;
-  if (!_id || !_eventId || !updatedEvent) {
-    return res.status(400).send('Missing parameters!');
+  const { _id, _eventId, updatedEvent, type } = req.body;
+
+  if (!_id || !_eventId || !updatedEvent || (type !== 0 && type !== 1)) {
+    return res.status(400).send('Missing parameters or invalid type!');
   }
-  
+
   try {
     const user = await UserModel.findById(_id);
-    
+
     if (!user) {
       return res.status(404).send('User not found!');
     }
 
-    const eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
-    //finxIndex returns -1 if it found nothing
-
-    if (eventIndex === -1) {
-      return res.status(404).send('Event not found!');
+    let eventIndex;
+    
+    if (type === 0) { // For not dated events
+      eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+      if (eventIndex === -1) {
+        return res.status(404).send('Event not found!');
+      }
+      
+      Object.assign(user.events[eventIndex], updatedEvent);
+    } else if (type === 1) { // For dated events
+      eventIndex = user.dated_events.findIndex(event => event._id.toString() === _eventId);
+      if (eventIndex === -1) {
+        return res.status(404).send('Dated event not found!');
+      }
+      
+      Object.assign(user.dated_events[eventIndex], updatedEvent);
     }
 
-    Object.assign(user.events[eventIndex], updatedEvent);
-    
     await user.save();
 
     return res.status(200).send('Event updated.');
@@ -179,6 +181,76 @@ app.post("/deleteEvent", async (req, res) => {
     return res.status(200).send('Event deleted.');
   } catch (error) {
     console.error(error);
+    return res.status(500).send('ERROR!!!');
+  }
+});
+
+app.post('/moveEvent', async (req, res) => {
+  const { _id, _eventId, date } = req.body;
+
+  try {
+    const user = await UserModel.findById(_id);
+    if (!user) {
+      return res.status(404).send('User not found!');
+    }
+
+    
+    const eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+    if (eventIndex === -1) {
+      return res.status(404).send('Event not found!');
+    }
+
+    
+    const eventToMove = user.events[eventIndex];
+    const datedEvent = {
+      ...eventToMove,
+      date: [new Date(date)]
+    };
+
+    
+    user.events.splice(eventIndex, 1); // Remove the event
+    user.dated_events.push(datedEvent); // Add to dated_events
+
+    
+    await user.save();
+
+    return res.status(200).send('Event moved.');
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('ERROR!!!');
+  }
+});
+
+app.post('/copyEvent', async (req, res) => {
+  const { _id, _eventID } = req.body;
+
+  try {
+    const user = await UserModel.findById(_id);
+
+    if (!user) {
+      return res.status(404).send('User not found!');
+    }
+
+    const event = user.events.id(_eventID);
+
+    if (!event) {
+      return res.status(404).send('Event not found!');
+    }
+    
+    //copy of an event
+    const eventCopy = {
+      name: event.name,
+      desc: event.desc,
+      color: event.color
+    };
+
+    user.events.push(eventCopy);
+
+    await user.save();
+
+    return res.status(200).send('Event copied.');
+  } catch (error) {
+    console.error('Error copying event:', error);
     return res.status(500).send('ERROR!!!');
   }
 });

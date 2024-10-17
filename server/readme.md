@@ -1,4 +1,4 @@
-# Example POST & GET body for ExpressJs 
+# Example POST & GET body for ExpressJs (WORK IN PROGRESS)
 
 ## Example GET for /getEvents:
 
@@ -45,7 +45,8 @@ Response:
     "name": "New event name",
     "desc": "NewDesc",
     "color": "Red"
-  }
+  },
+  "type": 0
 }
 ```
 
@@ -53,6 +54,7 @@ Response:
 ```json
 {
   "_id": "670f69032155ac0b081d125e",
-  "_eventId": "670f6c1fef382a3e70780dad"
+  "_eventId": "670f6c1fef382a3e70780dad",
+  "type": 0
 }
 ```
