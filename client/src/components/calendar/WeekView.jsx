@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
 import { getDaysOfTheWeek } from '../../utils/getDaysOfTheWeek';
 import { getWeekNumber } from '../../utils/getWeekNumber';
 import { getPolishDayOfWeek } from '../../utils/getPolishWeekDays';
 
 
-export default function WeekView({currentDate}) {
+export default function WeekView({ currentDate }) {
+  const hoursContainerRef = useRef(null);
   const scrollBarWidth = getScrollbarWidth();
   const gridColumnsWithoutScrollbar = `50px 10px 1fr 1fr 1fr 1fr 1fr 1fr 1fr ${scrollBarWidth}px`;
   const daysOfTheWeek = getDaysOfTheWeek(getWeekNumber(currentDate), currentDate.getFullYear());
-  console.log(daysOfTheWeek);
 
   const daysElement = daysOfTheWeek.map(day => {
+    return (<div className="day-container" key={day.getTime()}>{getPolishDayOfWeek(day)} <span>{day.getDate()}</span></div>)
+  });
 
-    return (<div className="day-container" key={day.getTime()}>{getPolishDayOfWeek(day)} <span>{ day.getDate() }</span></div>)
-  })
+  const now = new Date();
+  const nowElementTop = (now.getHours()) * 50 + (now.getMinutes() * (50 / 60));
+
+  useEffect(() => {
+    const now = new Date();
+
+    if (hoursContainerRef) {
+      hoursContainerRef.current.scrollTo({
+        top: (now.getHours() - 1) * 50,
+        behavior: 'smooth',
+      });
+    }
+  }, []);
 
   return (
     <div className="week-view-container" >
@@ -38,7 +51,7 @@ export default function WeekView({currentDate}) {
         <div></div>
       </div>
 
-      <div className="days-container">
+      <div className="days-container" ref={hoursContainerRef}>
         <div className="hours-container">
           <div><span>01:00</span></div>
           <div><span>02:00</span></div>
@@ -80,6 +93,8 @@ export default function WeekView({currentDate}) {
           <div></div>
         </div>
         <div className="day-events">
+          <div className="now-element" style={{top: `${nowElementTop}px`}}></div>
+          <div className="event" style={{ top: `${50 * 14}px`, height: `${50 * 4}px`}}>Projekt zespołowy</div>
           <SpamOfDivs />
           <div></div>
         </div>

@@ -1,6 +1,6 @@
 import { getShortPolishMonth } from './getShortPolishNames';
 
-export const getTitle = (currentDate, view) => {
+export const getTitle = (currentDate, view, short = false) => {
   const options = { month: 'long', year: 'numeric' };
 
   if (view === 'month') {
@@ -22,9 +22,9 @@ export const getTitle = (currentDate, view) => {
       return `${startMonth} ${startYear}`;
     } else if (startMonth !== endMonth && startYear === endYear) {
       // Different months or years
-      return `${getShortPolishMonth(startOfWeek)} - ${getShortPolishMonth(endOfWeek)} ${endYear}`;
+      return `${short ? getShortPolishMonth(startOfWeek) : startMonth} - ${short ? getShortPolishMonth(endOfWeek) : endMonth} ${endYear}`;
     } else {
-      return `${getShortPolishMonth(startOfWeek)} ${startYear} - ${getShortPolishMonth(endOfWeek)} ${endYear}`;
+      return `${short ? getShortPolishMonth(startOfWeek) : startMonth} ${startYear} - ${short ? getShortPolishMonth(endOfWeek) : endMonth} ${endYear}`;
     }
   }
 };
