@@ -1,23 +1,27 @@
 import React from 'react'
 import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
+import { getDaysOfTheWeek } from '../../utils/getDaysOfTheWeek';
+import { getWeekNumber } from '../../utils/getWeekNumber';
+import { getPolishDayOfWeek } from '../../utils/getPolishWeekDays';
 
 
-export default function WeekView() {
+export default function WeekView({currentDate}) {
   const scrollBarWidth = getScrollbarWidth();
-  const gridColumnsWithoutScrollbar = `50px 10px 1fr 1fr 1fr 1fr 1fr 1fr 1fr ${scrollBarWidth}px`
+  const gridColumnsWithoutScrollbar = `50px 10px 1fr 1fr 1fr 1fr 1fr 1fr 1fr ${scrollBarWidth}px`;
+  const daysOfTheWeek = getDaysOfTheWeek(getWeekNumber(currentDate), currentDate.getFullYear());
+  console.log(daysOfTheWeek);
+
+  const daysElement = daysOfTheWeek.map(day => {
+
+    return (<div className="day-container" key={day.getTime()}>{getPolishDayOfWeek(day)} <span>{ day.getDate() }</span></div>)
+  })
 
   return (
     <div className="week-view-container" >
       <header style={{gridTemplateColumns: gridColumnsWithoutScrollbar}}>
         <div></div>
         <div></div>
-        <div className="day-container">Pon. <span>25</span></div>
-        <div className="day-container">Wt. <span>26</span></div>
-        <div className="day-container">Śr. <span>27</span></div>
-        <div className="day-container">Czw. <span>28</span></div>
-        <div className="day-container">Pt. <span>29</span></div>
-        <div className="day-container">Sob. <span>30</span></div>
-        <div className="day-container">Niedz. <span>1</span></div>
+        { daysElement }
         <div></div>
       </header>
 
@@ -84,6 +88,7 @@ export default function WeekView() {
           <div></div>
         </div>
         <div className="day-events">
+          <div className='event'> test</div>
           <SpamOfDivs />
           <div></div>
         </div>
