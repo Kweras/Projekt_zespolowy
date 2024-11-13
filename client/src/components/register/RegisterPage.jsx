@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../login/Login.css'
 
 const RegisterPage = () => {
     const [nick, setNick] = useState('');
@@ -46,14 +47,15 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className='Home'>
-            <h2>Rejestracja</h2 >
+        <div className='form-container'>
+            <h2 className='form-header'>Rejestracja</h2 >
             <form onSubmit={handleSubmit}>
                 {error && <p>{error}</p>}
                 <div>
                     <label htmlFor="nick">Nick</label>
                     <input
                         type="text"
+                        className='form-input'
                         id="nick"
                         value={nick}
                         minLength={4}
@@ -66,6 +68,7 @@ const RegisterPage = () => {
                     <label htmlFor="email">Email</label>
                     <input
                         type="text"
+                        className='form-input'
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -76,6 +79,7 @@ const RegisterPage = () => {
                     <label htmlFor="password">Hasło</label>
                     <input
                         type="password"
+                        className='form-input'
                         id="password"
                         value={password}
                         minLength={8}
@@ -87,13 +91,14 @@ const RegisterPage = () => {
                     <label htmlFor="repeat-password">Powtórz hasło</label>
                     <input
                         type="password"
+                        className='form-input'
                         id="repeat-password"
                         value={repeatedPassword}
                         onChange={(e) => setRepeatedPassword(e.target.value)}
                         required
                     />
                 </div>
-                <button type="submit">Zarejestruj</button>
+                <button className='btn-form' type="submit">Zarejestruj</button>
             </form>
         </div >
     );

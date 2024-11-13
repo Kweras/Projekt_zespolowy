@@ -22,7 +22,7 @@ const Navigation = () => {
     return (
         <header className="site-header">
             <div className="site-header-section">
-                <p className="logo">Maaaaaster<span>Planer</span></p>
+                <p className="logo">Master<span>Planer</span></p>
                 {isLoggedIn ? (
                     <div className="site-header-section">
                         <Link to="/calendar">Kalendarz</Link>
@@ -41,8 +41,8 @@ const Navigation = () => {
                 </div>
             ) : (
                 <div className="site-header-section">
-                    <Link to="/register">Rejestracja</Link>
-                    <Link to="/login">Logowanie</Link>
+                    <Link className='btn' to="/register">Rejestracja</Link>
+                    <Link className='btn' to="/login">Logowanie</Link>
                 </div>
             )}
         </header>

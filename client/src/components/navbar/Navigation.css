@@ -5,7 +5,8 @@
     gap: 20px;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px gray dotted;
+    border-bottom: 1px #a81f7f dotted;
+    box-shadow: 0 1px 10px 0 #a81f7f;
     padding: 20px;
     position: fixed;
     top: 0;
@@ -21,9 +22,7 @@
     align-content: center;
 }
 
-.site-header-section a {
-    padding: 20px;
-}
+
 
 .logo {
     font-family: "Pacifico", cursive;
@@ -35,4 +34,23 @@
 
 .logo>span {
     color: #a81f7f;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: 1px black solid;
+    border-radius: 15px;
+    transition-duration: 0.4s;
+    background-color: #a81f7f;
+    color: white;
+    box-shadow: 0 1px 4px 0 #a81f7f;
+    text-decoration: none;
+}
+
+
+.btn:hover {
+    background-color: white;
+    border-color: #a81f7f;
+    color: black;
 }
