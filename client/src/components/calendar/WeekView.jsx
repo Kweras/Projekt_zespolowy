@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
-import { getDaysOfTheWeek } from '../../utils/getDaysOfTheWeek';
-import { getWeekNumber } from '../../utils/getWeekNumber';
-import { getPolishDayOfWeek } from '../../utils/getPolishWeekDays';
+import { getDaysOfTheWeek, getPolishDayOfWeek, getWeekNumber } from '../../utils/calendarUtils';
 
 
 export default function WeekView({ currentDate }) {
@@ -108,7 +106,7 @@ export default function WeekView({ currentDate }) {
           <div></div>
         </div>
         <div className="day-events" data-day="wednesday">
-          <div className="event" style={{ top: `${50 * 14}px`, height: `${50 * 4}px` }}>Projekt zespołowy</div>
+          <div className="week-event" style={{ top: `${(50 * 14) + (Math.floor(15 / 15)) * (50/4)}px`, height: `${(50 * 4) - (50/4) * 2}px` }}>Projekt zespołowy</div>
           <SpamOfDivs />
           <div></div>
         </div>
@@ -121,7 +119,7 @@ export default function WeekView({ currentDate }) {
           <div></div>
         </div>
         <div className="day-events" data-day="saturday">
-          <div className='event'> test</div>
+          <div className='week-event'> test</div>
           <SpamOfDivs />
           <div></div>
         </div>

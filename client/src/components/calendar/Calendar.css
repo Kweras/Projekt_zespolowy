@@ -103,7 +103,7 @@
   position: relative;
 }
 
-.event {
+.week-event {
   position: absolute;
   left: 10px;
   background-color: rgb(31, 31, 255);
@@ -119,6 +119,7 @@
 .days-container {
   height: 500px;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .calendar-header {
@@ -191,4 +192,96 @@
   width: 7px;
   background-color: red;
   border-radius: 5px;
+}
+
+.now-element::after {
+  content: '';
+  position: absolute;
+  width: 150vw;
+  height: 1px;
+  top: 2px;
+  top: 0px;
+  left: -50vw;
+  background: rgba(255, 0, 0, 0.232);
+  z-index: -1;
+}
+
+/* Month Calendar */
+.month-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+}
+
+.month-calendar-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.month-calendar-day-header {
+  font-size: 16px;
+  text-align: center;
+  color: gray;
+}
+
+.month-calendar-day-header-helper {
+  height: 20px;
+  display: block;
+  margin-top: -5px;
+}
+
+.month-calendar-day-header-helper,
+.month-calendar-day {
+  border-left: 1px solid var(--calendar-border-color);
+  border-bottom: 1px solid var(--calendar-border-color);
+}
+
+.month-calendar-day-header-helper.last,
+.month-calendar-day.last {
+  border-right: 1px solid var(--calendar-border-color);
+}
+
+.month-calendar-day {
+  height: 125px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+}
+
+.month-calendar-day span {
+  font-style: 14px;
+  padding: 5px;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  text-align: center;
+  color: gray;
+}
+
+.month-calendar-day span.today {
+  color: rgb(35, 35, 35);
+  background-color: rgb(241, 69, 69);
+}
+
+.month-calendar-day.gray {
+  background-color: #f4f4f4;
+}
+
+.month-calendar-other-month > span {
+  color: var(--calendar-border-color) !important;
+}
+
+.month-event {
+  width: 100%;
+  border-radius: 3px;
+  background-color: blue;
+  color: white;
+  padding: 0 3px;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 20px;
 }

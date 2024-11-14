@@ -1,16 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "./Calendar";
 import "./Calendar.css"
 import { getTitle } from "../../utils/calendarUtils";
 
+const TEMP_EVENTS = [
+  {
+    id: 1,
+    name: 'Test Event',
+    start: new Date('2024-11-13'),
+    duration: '120'
+  }
+]
 
 const CalendarPage = () => {
   const [selectedView, setSelectedView] = useState("week");
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [events, setEvents] = useState([])
+
+  useEffect(() => {
+    const options = JSON.parse(localStorage.getItem('calendar-options'))
+
+    if (options.view) {
+      setSelectedView(options.view)
+    }
+
+    if (options.date) {
+      setCurrentDate(new Date(options.date))
+    }
+    
+
+    // TODO: Send request to the server
+    setEvents(TEMP_EVENTS)
+  }, []);
+
+  const updateLocalStorage = (view, date) => {
+    localStorage.setItem('calendar-options', JSON.stringify({
+      view, date
+    }))
+  }
 
   const changeRange = (type) => {
     if (type === "today") {
       setCurrentDate(new Date());
+      updateLocalStorage(selectedView, new Date());
       return
     } 
 
@@ -24,10 +56,17 @@ const CalendarPage = () => {
       newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + (1 * direction), 1)
       setCurrentDate(newDate);
     }
+
+    updateLocalStorage(selectedView, newDate);
+  }
+
+  const handleChangeView = (view) => {
+    setSelectedView(view);
+        updateLocalStorage(view, currentDate);
   }
 
   return (
-  <div className='calendar-page-container'>
+      <div className='calendar-page-container'>
       <header className="calendar-header">
         <div className="calendar-header-title">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style={{cursor: "pointer"}} onClick={() => {
@@ -45,8 +84,8 @@ const CalendarPage = () => {
 
         <div className="buttons-group-container">
           <div className="buttons-group">
-            <button onClick={() => setSelectedView("week")} className={selectedView === "week" ? "active" : ""}>Tydzień</button>
-            <button onClick={() => setSelectedView("month")} className={selectedView === "month" ? "active" : ""}>Miesiąc</button>
+            <button onClick={() => handleChangeView("week")} className={selectedView === "week" ? "active" : ""}>Tydzień</button>
+            <button onClick={() => handleChangeView("month")} className={selectedView === "month" ? "active" : ""}>Miesiąc</button>
           </div>
         </div>
         
@@ -66,7 +105,7 @@ const CalendarPage = () => {
     </header>  
       
     
-      <Calendar selectedView={selectedView} currentDate={currentDate} />
+      <Calendar selectedView={selectedView} currentDate={currentDate} events={events} />
   </div>
   )
 }
