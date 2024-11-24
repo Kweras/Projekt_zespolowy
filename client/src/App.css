@@ -10,12 +10,17 @@
 
 input,
 select,
-textarea {
+textarea,
+button {
   font-family: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   min-height: 100vh;
 }
 
@@ -32,7 +37,7 @@ body {
   gap: 20px;
 }
 
-.userInfo>* {
+.userInfo > * {
   padding-right: 10px;
   padding-left: 10px;
 }
