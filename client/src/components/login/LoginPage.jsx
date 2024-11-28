@@ -18,7 +18,9 @@ const LoginPage = () => {
                 body: JSON.stringify({ email, password }),
             });
             if (response.ok) {
+                const data = await response.json();
                 localStorage.setItem('isLoggedIn', true);
+                localStorage.setItem('userID', data._id);
                 navigate('/');
                 window.location.reload();
             } else {
