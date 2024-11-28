@@ -55,7 +55,7 @@ app.post('/login', async (req, res) => {
     }
 
     //console.log(user)
-    res.status(200).send('Login successful');
+    res.status(200).json({ _id: user._id });
   } catch (error) {
     console.error('Error logging in', error);
     res.status(500).send('Error logging in');
