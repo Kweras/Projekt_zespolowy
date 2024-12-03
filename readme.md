@@ -6,10 +6,18 @@
     ```bash
     mkdir server
     cd server
-    npm install express mongoose cors nodemon dotenv
+    npm install 
     ```
 
-2. Edit the `package.json` file to add the following script:
+### Used packages:
+    - express 
+    - mongoose 
+    - cors 
+    - nodemon 
+    - dotenv 
+    - bcryptjs
+
+2. Edit the `package.json` file  to add the following script:
     ```json
     "scripts": {
         "start": "nodemon index.js"
@@ -29,17 +37,15 @@
     ```bash
     mkdir client
     npx create-react-app .
+    npm install
     ```
     Yes, there is a dot at the end of command.
 
-2. Install Axios for making HTTP requests:
-    ```bash
-    npm install axios
-    ```
-3. And routing:
-    ```bash
-    npm install react-router-dom --save
-    ```
+### Used packages:
+    - react-router-dom
+    - react-icons
+        reference: `https://react-icons.github.io/react-icons/`
+    - react-modal
 
 ---
 

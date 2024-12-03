@@ -1,0 +1,19 @@
+.outer-container {
+  display: flex;
+  width: 100%;
+}
+
+.create-event-form {
+  width: 30%;
+}
+
+.events-container {
+  border: 5px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 70%;
+}

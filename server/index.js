@@ -88,7 +88,7 @@ app.get("/getEvents", async (req, res) => {
     }
     
   } catch (error) {
-    console.error("Error occured while retrieving events:", error);
+    console.error("Error occurred while retrieving events:", error);
     return res.status(500).send('ERROR!!!');
   }
 });
@@ -107,13 +107,17 @@ app.post("/createEvent", async (req, res) => {
     if (!updatedUser) {
       return res.status(404).send('User not found');
     }
-    return res.status(200).send('Event created.');
+
+    const newEvent = updatedUser.events[updatedUser.events.length - 1];
+
+    return res.status(200).json(newEvent);
 
   } catch (error) {
-    console.error("Error occured while creating an event:", error);
+    console.error("Error occurred while creating an event:", error);
     return res.status(500).send('Error');
   }
 });
+
 
 
 app.post("/updateEvent", async (req, res) => {
@@ -152,7 +156,7 @@ app.post("/updateEvent", async (req, res) => {
 
     return res.status(200).send('Event updated.');
   } catch (error) {
-    console.error("Error occured while updating events:", error);
+    console.error("Error occurred while updating events:", error);
     return res.status(500).send('ERROR!!!');
   }
 });
@@ -232,7 +236,7 @@ app.post('/copyEvent', async (req, res) => {
 
     return res.status(200).send('Event copied.');
   } catch (error) {
-    console.error("Error occured while coping an event:", error);
+    console.error("Error occurred while coping an event:", error);
     return res.status(500).send('ERROR!!!');
   }
 });

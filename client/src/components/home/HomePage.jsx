@@ -1,13 +1,14 @@
 import '../../../src/App.css';
-import superIkonka from '../../assets/logo.jpg';
+import PrivateRoute from '../route/PrivateRoute';
+import EventsContainer from '../eventsContainer/EventsContainer';
 
 function HomePage() {
-    return (
-        <div>
-            <h2>Super moder planer</h2>
-            <img src={superIkonka} width={200} alt="ale fajna ikonka" />
-        </div>
-    )
+	return (
+		<div>
+			<h2>Super modern planer</h2>
+			{/*<PrivateRoute> <EventsContainer /> </PrivateRoute> */}
+		</div>
+	)
 }
 
 export default HomePage;
