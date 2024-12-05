@@ -1,12 +1,24 @@
-//UNFINISHED
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Modal from "react-modal";
+import './DeleteEvent.css';
 
-function DeleteEvent() {
-
-  const _id = localStorage.getItem("userID");
-  const [_eventId, setEventId] = useState("");
-  const [type, setType] = useState("0");
+function DeleteEvent({eventId, name, type, onDeleteEvent, children}) {
   const [error, setError] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const buttonHandleCloseModal = (e) => {
+    e.stopPropagation(); //why is this needed
+    setModalIsOpen(false);
+  };
   
   const handleSubmitDelete = async (event) => {
     event.preventDefault();
@@ -19,13 +31,14 @@ function DeleteEvent() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          _id,
-          _eventId,
+          _id: localStorage.getItem("userID"),
+          _eventId: eventId,
           type: parseInt(type)
         }),
       });
       if (response.ok) {
-        console.log('Event deleted!');
+        onDeleteEvent(eventId);
+        handleCloseModal();
       } else {
         setError('Error: Failed to delete the event');
       }
@@ -36,46 +49,32 @@ function DeleteEvent() {
   };
 
   return (
-    <form onSubmit={handleSubmitDelete}>
-      <div>
-        <label>
-          ID:
-          <input
-            type="text"
-            value={_eventId}
-            minLength={1}
-            onChange={(e) => setEventId(e.target.value)}
-            required
-          />
-        </label>
+    <div onClick={handleOpenModal}>
+      {children}
+    
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={handleCloseModal}
+        className="modal"
+        overlayClassName="overlay"
+      >
+        <button type="button" onClick={buttonHandleCloseModal}>CLOSE</button>
+        <div className="form-container">
+          <form onSubmit={handleSubmitDelete}>
 
-        <div><label>Rodzaj eventu:</label>
-        <br></br>
-        <label>
-            <input
-              type="radio"
-              value="0"
-              checked={type === "0"}
-              onChange={(e) => setType(e.target.value)}
-            />
-            Regular Event
-          </label>
-          <br></br>
-        <label>
-            <input
-              type="radio"
-              value="1"
-              checked={type === "1"}
-              onChange={(e) => setType(e.target.value)}
-            />
-            Dated Event
-          </label>
-          </div>
+            <h1>Czy na pewno chcesz usunąć to wydarzenie</h1>
+            <h2>{name}</h2>
+            <button type="submit">Tak</button>
+            <button type="button" onClick={buttonHandleCloseModal}>Nie</button>
 
-      </div>
+        
 
-      <button type="submit">Usuń wydarzenie</button>
-    </form>
+            
+          </form>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </div>
+      </Modal>
+    </div>
   );
 }
 

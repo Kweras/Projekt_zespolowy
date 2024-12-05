@@ -1,9 +1,10 @@
 import '../event/Event.css';
 import UpdateEvent from '../updateEvent/UpdateEvent';
+import DeleteEvent from '../deleteEvent/DeleteEvent';
 import { FaPencilAlt } from "react-icons/fa";
 import { ImBin } from "react-icons/im";
 
-const Event = ({ id, name, desc, color }) => {
+const Event = ({ id, name, desc, color, onUpdateEvent, onDeleteEvent }) => {
   let eventClassName = 'event';
 
   if (color === 'Red') {
@@ -20,17 +21,24 @@ const Event = ({ id, name, desc, color }) => {
     <div className={eventClassName}>
       <div className="icon-container">
         <UpdateEvent 
-          className="icon" 
           eventId={id} 
           name={name} 
           desc={desc} 
           color={color} 
           type="0"
+          onUpdateEvent={onUpdateEvent}
         >
-          <FaPencilAlt className="icon"/>
+          <FaPencilAlt/>
         </UpdateEvent>
-        
-        <ImBin className="icon"/>
+
+        <DeleteEvent
+          eventId={id} 
+          name={name} 
+          type="0"
+          onDeleteEvent={onDeleteEvent}
+        >
+          <ImBin/>
+        </DeleteEvent>
       </div>
       <h2 className="name" >{name}</h2>
       <p className="desc">{desc}</p>

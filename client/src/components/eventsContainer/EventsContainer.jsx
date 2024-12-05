@@ -22,19 +22,40 @@ const FlexContainer = () => {
   }, []);
 
   const addEvent = (newEvent) => { //Callback event, learn more about
-    console.log("New event")
-    console.log(newEvent)
     setEvents((prevEvents) => [...prevEvents, newEvent]);
   };
+
+  const updateEvent = (updatedEvent) => {
+    setEvents((prevEvents) => 
+      prevEvents.map(event => 
+        event._id === updatedEvent._id ? updatedEvent : event
+      )
+    );
+  };
+
+  const deleteEvent = (eventId) => {
+    setEvents((prevEvents) => 
+      prevEvents.filter(event => event._id !== eventId)
+    );
+  };
+
 
   return (
     <div className="outer-container">
       <div className="create-event-form">
         <CreateEvent onAddEvent={addEvent} />
-        </div>
+      </div>
       <div className="events-container">
         {events.map(event => (
-          <Event key={event._id} id={event._id} name={event.name} desc={event.desc} color={event.color} />
+          <Event 
+          key={event._id} 
+          id={event._id} 
+          name={event.name} 
+          desc={event.desc} 
+          color={event.color}
+          onUpdateEvent={updateEvent}
+          onDeleteEvent={deleteEvent}
+          />
         ))}
       </div>
     </div>

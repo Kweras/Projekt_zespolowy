@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "react-modal";
 import './UpdateEvent.css';
 
-function UpdateEvent({eventId, name, desc, color, type, children}) { 
+function UpdateEvent({eventId, name, desc, color, type, onUpdateEvent, children}) { 
   const [_name, setName] = useState(name);
   const [_desc, setDesc] = useState(desc);
   const [_color, setColor] = useState(color);
@@ -14,6 +14,11 @@ function UpdateEvent({eventId, name, desc, color, type, children}) {
   };
 
   const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const buttonHandleCloseModal = (e) => {
+    e.stopPropagation(); //why is this needed
     setModalIsOpen(false);
   };
   
@@ -40,6 +45,7 @@ function UpdateEvent({eventId, name, desc, color, type, children}) {
       });
       if (response.ok) {
         console.log('Event updated!');
+        onUpdateEvent({ _id: eventId, name: _name, desc: _desc, color: _color });
         handleCloseModal();
       } else {
         setError('Error: Failed to update the event');
@@ -55,14 +61,15 @@ function UpdateEvent({eventId, name, desc, color, type, children}) {
       {children}
     
       <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={handleCloseModal}
-          className="modal"
-          overlayClassName="overlay"
-        >
+        isOpen={modalIsOpen}
+        onRequestClose={handleCloseModal}
+        className="modal"
+        overlayClassName="overlay"
+      >
 
       <div className="form-container">
         <h2>Edycja wydarzenia</h2>
+        <button type="button" className="close-button" onClick={buttonHandleCloseModal}>CLOSE</button>
         <form onSubmit={handleSubmitEdit}>   
           <div className="form-group">
             <label>

@@ -6,7 +6,7 @@ function HomePage() {
 	return (
 		<div>
 			<h2>Super modern planer</h2>
-			{/*<PrivateRoute> <EventsContainer /> </PrivateRoute> */}
+			<PrivateRoute> <EventsContainer /> </PrivateRoute>
 		</div>
 	)
 }
