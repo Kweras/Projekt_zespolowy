@@ -1,0 +1,44 @@
+.event {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+  width: 300px;
+  margin: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon-container {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.icon {
+  cursor: pointer;
+  margin-right: 10px;
+  color: #007bff;
+}
+
+.name {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.desc {
+  text-align: center;
+  color: #555;
+}
+
+.red-event {
+  background-color: #fd7e7e;
+}
+.green-event {
+  background-color: #82f78c;
+}
+.blue-event {
+  background-color: #63daf8;
+}
+.white-event{
+  background-color: #ffffff;
+}

@@ -1,0 +1,260 @@
+/* Ogólne */
+.homepage {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    background: linear-gradient(to bottom, #ffffff, #fce4ec);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animowane tło - drobne akcenty */
+.homepage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4), rgba(255, 0, 128, 0));
+    animation: subtlePulse 10s infinite alternate;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.homepage::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(168, 31, 127, 0.2);
+    border-radius: 50%;
+    animation: float 12s infinite ease-in-out;
+    z-index: 1;
+}
+
+/* Nagłówek */
+.homepage-header {
+    background: linear-gradient(135deg, #a81f7f, #d81b60);
+    color: white;
+    padding: 70px 20px;
+    margin-bottom: 50px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideInFromTop 1.5s ease-out;
+    position: relative;
+    z-index: 2;
+}
+
+.homepage-header h1 {
+    font-size: 3.2em;
+    margin: 0;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1.5px;
+    animation: popIn 2s ease-out;
+}
+
+.homepage-header p {
+    font-size: 1.4em;
+    margin: 20px 0;
+    letter-spacing: 0.5px;
+    color: #fce4ec;
+}
+
+/* Efekt "błysku" przycisku */
+.homepage-btn {
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: white;
+    background: linear-gradient(135deg, #ff4081, #f50057);
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+    animation: bounce 1.5s infinite alternate;
+}
+
+.homepage-btn:hover {
+    background: linear-gradient(135deg, #f50057, #ff4081);
+    transform: scale(1.05) rotate(1deg);
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.homepage-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    animation: shimmer 2s infinite;
+}
+
+/* Sekcja funkcjonalności */
+.homepage-features {
+    color: white;
+    margin: 40px 0;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeInUp 1.5s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.homepage-features h2 {
+    font-size: 2.4em;
+    color: #a81f7f;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    animation: textGlow 2.5s infinite alternate;
+}
+
+.homepage-features ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.homepage-features li {
+    margin: 10px 0;
+    font-size: 1.3em;
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f7a2c0, #f07aa1);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    animation: zoomIn 1.5s ease;
+}
+
+.homepage-features li:hover {
+    transform: translateY(-10px) rotate(-1deg);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.homepage-register {
+    padding: 50px;
+}
+
+.homepage-register>* {
+    margin: 10px;
+}
+
+/* Animacje */
+@keyframes subtlePulse {
+    0% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(-5px);
+    }
+
+    to {
+        transform: translateY(5px);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0.8;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1400px) {
+    .homepage-features ul {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1000px) {
+    .homepage-features ul {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .homepage-features ul {
+        grid-template-columns: 1fr;
+    }
+
+    .homepage-features h2 {
+        font-size: 1.5em;
+    }
+
+    .homepage-header h1 {
+        font-size: 2.5em;
+    }
+
+    .homepage-header,
+    .homepage-features {
+        margin: 20px 0;
+    }
+
+    .homepage-register {
+        padding: 40px 20px;
+    }
+}

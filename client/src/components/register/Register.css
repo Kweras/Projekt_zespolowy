@@ -1,5 +1,5 @@
 /* Kontener tła strony */
-.login-container {
+.register-container {
     --background: linear-gradient(to bottom, #ffffff, #fce4ec);
     /* Tło strony */
     font-family: 'Montserrat', sans-serif;
@@ -17,7 +17,7 @@
 }
 
 /* Formularz logowania */
-.login-form {
+.register-form {
     background: linear-gradient(135deg, #a81f7f, #d81b60);
     color: white;
     padding: 30px;
@@ -27,13 +27,13 @@
     width: 100%;
     max-width: 400px;
     text-align: center;
-    margin: 100px 10px 60px 10px;
+    margin: 80px 10px 60px 10px;
     /* Ustawienie marginesu od góry na 150px */
     animation: slideInFromTop 1.5s ease-out;
 }
 
 /* Nagłówek formularza */
-.login-form h2 {
+.register-form h2 {
     margin-bottom: 20px;
     font-size: 2.5em;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
@@ -74,7 +74,7 @@
 }
 
 /* Przycisk logowania */
-.login-btn {
+.register-btn {
     width: 100%;
     padding: 12px;
     font-size: 1.2em;
@@ -86,12 +86,12 @@
     transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.login-btn:hover {
+.register-btn:hover {
     background: linear-gradient(135deg, #f50057, #ff4081);
     transform: scale(1.05);
 }
 
-.login-btn:active {
+.register-btn:active {
     transform: scale(1);
 }
 
@@ -109,7 +109,7 @@
 }
 
 @media (max-width: 600px) {
-    .login-form {
+    .register-form {
         margin: 20px 10px 40px 10px;
     }
 }

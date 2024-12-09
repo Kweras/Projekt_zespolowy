@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { IoSettingsOutline, IoCalendarOutline, IoHomeOutline, IoLogOutOutline } from "react-icons/io5";
+import HamburgerMenu from './HamburgerMenu';
+
 import "./Navigation.css";
 
 const Navigation = () => {
@@ -22,27 +25,31 @@ const Navigation = () => {
     return (
         <header className="site-header">
             <div className="site-header-section">
-                <p className="logo">Master<span>Planer</span></p>
+                <p className="logo">Maaaaaster<span>Planer</span></p>
+
                 {isLoggedIn ? (
-                    <div className="site-header-section">
-                        <Link to="/calendar">Kalendarz</Link>
-                    </div>
+                    <></>
                 ) : (
                     <div className="site-header-section">
-                        <Link to="/">Strona główna</Link>
+                        <Link className="sidebar-btn" to="/"><IoHomeOutline /></Link>
+                        <Link className="sidebar-btn" to="/calendar"><IoCalendarOutline /> </Link>
                     </div>
                 )}
             </div>
 
             {isLoggedIn ? (
                 <div className="site-header-section">
-                    <Link to='/settings'>Ustawienia</Link>
-                    <button onClick={handleLogout}>Wyloguj się</button>
+                    <Link className="sidebar-btn" to="/"><IoHomeOutline /></Link>
+                    <Link className="sidebar-btn" to="/calendar"><IoCalendarOutline /> </Link>
+                    <Link className="sidebar-btn" to='/settings'><IoSettingsOutline /></Link>
+                    <Link className="sidebar-btn" onClick={handleLogout}><IoLogOutOutline /></Link>
+                    <HamburgerMenu />
                 </div>
             ) : (
                 <div className="site-header-section">
-                    <Link className='btn' to="/register">Rejestracja</Link>
-                    <Link className='btn' to="/login">Logowanie</Link>
+                    <Link className="sidebar-btn user-btn" to="/register">Rejestracja</Link>
+                    <Link className="sidebar-btn user-btn" to="/login">Logowanie</Link>
+                    <HamburgerMenu />
                 </div>
             )}
         </header>

@@ -1,0 +1,54 @@
+/* Ogólne */
+.footer {
+    background: linear-gradient(135deg, #a81f7f, #d81b60);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    border-top: 4px solid #ff4081;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.social-icons {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 10px 0 0;
+}
+
+.social-icons li {
+    display: inline-block;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #ffebee;
+    transform: scale(1.2);
+}
+
+.social-icons a:active {
+    transform: scale(1.1);
+    color: #fce4ec;
+}

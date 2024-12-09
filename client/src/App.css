@@ -10,12 +10,17 @@
 
 input,
 select,
-textarea {
+textarea,
+button {
   font-family: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   min-height: 100vh;
 }
 
@@ -38,9 +43,10 @@ body {
 }
 
 .site-content {
-  padding: 120px 20px 0 20px;
+  padding: 100px 0 0 0;
 }
 
 main {
-  min-height: calc(100vh - 20px);
+  background: linear-gradient(to bottom, #ffffff, #fce4ec);
+  min-height: calc(100vh - 114px);
 }

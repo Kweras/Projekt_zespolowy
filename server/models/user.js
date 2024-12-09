@@ -16,6 +16,17 @@ const eventSchema = new mongoose.Schema({
   }
 });
 
+const dateSchema = new mongoose.Schema({
+  start: {
+    type: Date,
+    required: true
+  },
+  duration: { //in minutes
+    type: Number,
+    required: true
+  }
+});
+
 const datedEventSchema = new mongoose.Schema({
   name: { 
     type: String, 
@@ -30,8 +41,8 @@ const datedEventSchema = new mongoose.Schema({
     required: true,
     default: "Blue" 
   },
-  date: {
-    type: [Date],
+  dates: {
+    type: [dateSchema],
     required: true
   }
 });
