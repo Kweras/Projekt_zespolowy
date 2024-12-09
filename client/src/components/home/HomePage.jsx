@@ -6,10 +6,6 @@ import "./HomePage.css";
 
 function HomePage() {
 	return (
-		// <div>
-		// 	<h2>Super modern planer</h2>
-		// 	<PrivateRoute> <EventsContainer /> </PrivateRoute>
-		// </div>
 
 		<div className="homepage">
 
