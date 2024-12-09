@@ -1,0 +1,115 @@
+/* Kontener tła strony */
+.register-container {
+    --background: linear-gradient(to bottom, #ffffff, #fce4ec);
+    /* Tło strony */
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    position: relative;
+    overflow: hidden;
+    /* Zapobiega przewijaniu całej strony */
+    display: flex;
+    justify-content: center;
+    /* Wyśrodkowanie formularza poziomo */
+    align-items: flex-start;
+    /* Wyśrodkowanie formularza pionowo */
+
+    /* Wysokość kontenera na 100% wysokości okna */
+}
+
+/* Formularz logowania */
+.register-form {
+    background: linear-gradient(135deg, #a81f7f, #d81b60);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin: 80px 10px 60px 10px;
+    /* Ustawienie marginesu od góry na 150px */
+    animation: slideInFromTop 1.5s ease-out;
+}
+
+/* Nagłówek formularza */
+.register-form h2 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Style dla kontenerów pól formularza */
+.input-container {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-container label {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.input-container input:focus {
+    border-color: #ff4081;
+    box-shadow: 0px 0px 8px rgba(255, 64, 129, 0.5);
+}
+
+/* Komunikat o błędzie */
+.error-message {
+    color: #ff4081;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+/* Przycisk logowania */
+.register-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2em;
+    color: white;
+    background: linear-gradient(135deg, #ff4081, #f50057);
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.register-btn:hover {
+    background: linear-gradient(135deg, #f50057, #ff4081);
+    transform: scale(1.05);
+}
+
+.register-btn:active {
+    transform: scale(1);
+}
+
+/* Animacje */
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .register-form {
+        margin: 20px 10px 40px 10px;
+    }
+}

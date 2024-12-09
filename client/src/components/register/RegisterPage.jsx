@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import "./Register.css"
 
 const RegisterPage = () => {
     const [nick, setNick] = useState('');
@@ -46,56 +47,58 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className='Home'>
-            <h2>Rejestracja</h2 >
-            <form onSubmit={handleSubmit}>
-                {error && <p>{error}</p>}
-                <div>
-                    <label htmlFor="nick">Nick</label>
-                    <input
-                        type="text"
-                        id="nick"
-                        value={nick}
-                        minLength={4}
-                        maxLength={20}
-                        onChange={(e) => setNick(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="text"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Hasło</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        minLength={8}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="repeat-password">Powtórz hasło</label>
-                    <input
-                        type="password"
-                        id="repeat-password"
-                        value={repeatedPassword}
-                        onChange={(e) => setRepeatedPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Zarejestruj</button>
-            </form>
-        </div >
+        <div className='register-container'>
+            <div className="register-form">
+                <h2>Rejestracja</h2 >
+                <form onSubmit={handleSubmit}>
+                    {error && <p className="error-message">{error}</p>}
+                    <div className="input-container">
+                        <label htmlFor="nick">Nick</label>
+                        <input
+                            type="text"
+                            id="nick"
+                            value={nick}
+                            minLength={4}
+                            maxLength={20}
+                            onChange={(e) => setNick(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-container">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="text"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-container">
+                        <label htmlFor="password">Hasło</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            minLength={8}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-container">
+                        <label htmlFor="repeat-password">Powtórz hasło</label>
+                        <input
+                            type="password"
+                            id="repeat-password"
+                            value={repeatedPassword}
+                            onChange={(e) => setRepeatedPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className='register-btn'>Zarejestruj</button>
+                </form>
+            </div>
+        </div>
     );
 };
 
