@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { IoSettingsOutline, IoCalendarOutline, IoHomeOutline, IoLogOutOutline } from "react-icons/io5";
+import { IoSettingsOutline, IoCalendarOutline, IoHomeOutline, IoLogOutOutline, IoCalendarNumber, IoCalendarSharp, IoBagAdd, IoAddOutline } from "react-icons/io5";
 import HamburgerMenu from './HamburgerMenu';
 
 import "./Navigation.css";
+import { ImBoxAdd, ImFolderUpload } from "react-icons/im";
 
 const Navigation = () => {
     const navigate = useNavigate();
@@ -41,6 +42,7 @@ const Navigation = () => {
                 <div className="site-header-section">
                     <Link className="sidebar-btn" to="/"><IoHomeOutline /></Link>
                     <Link className="sidebar-btn" to="/calendar"><IoCalendarOutline /> </Link>
+                    <Link className="sidebar-btn" to="/event"><IoAddOutline /> </Link>
                     <Link className="sidebar-btn" to='/settings'><IoSettingsOutline /></Link>
                     <Link className="sidebar-btn" onClick={handleLogout}><IoLogOutOutline /></Link>
                     <HamburgerMenu />
