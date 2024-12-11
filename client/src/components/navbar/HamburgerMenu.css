@@ -1,11 +1,9 @@
-/* Kontener hamburger menu */
 .hamburger-menu {
     position: relative;
     z-index: 10;
     margin: 4px 0 4px 0;
 }
 
-/* Przycisk hamburger */
 .hamburger-btn {
     background: none;
     border: none;
@@ -25,17 +23,14 @@
     transition: all 0.3s ease;
 }
 
-/* Pełnoekranowe menu */
 .menu-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    --background: rgba(252, 228, 236, 0.75);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.85));
     backdrop-filter: blur(10px);
-    --webkit-backdrop-filter: blur(75px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -48,7 +43,6 @@ button:hover {
     background-color: white;
 }
 
-/* Animacja pojawiania się menu */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -59,7 +53,6 @@ button:hover {
     }
 }
 
-/* Przyciski w menu */
 .menu-nav {
     display: flex;
     flex-direction: column;
@@ -114,7 +107,6 @@ button:hover {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Przycisk zamykania menu */
 .close-btn {
     position: absolute;
     top: 20px;

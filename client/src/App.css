@@ -37,13 +37,13 @@ body {
   gap: 20px;
 }
 
-.userInfo > * {
+.userInfo>* {
   padding-right: 10px;
   padding-left: 10px;
 }
 
 .site-content {
-  padding: 100px 0 0 0;
+  padding: 90px 0 0 0;
 }
 
 main {

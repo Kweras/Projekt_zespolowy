@@ -1,6 +1,4 @@
 import '../../../src/App.css';
-import PrivateRoute from '../route/PrivateRoute';
-import EventsContainer from '../eventsContainer/EventsContainer';
 import { Link } from 'react-router-dom';
 import "./HomePage.css";
 
@@ -21,7 +19,7 @@ function HomePage() {
 				<h2>Funkcjonalności</h2>
 				<ul>
 					<li>Zarządzanie wydarzeniami i przypomnieniami</li>
-					<li>Widoki: dzienny, tygodniowy, miesięczny</li>
+					<li>Widok: tygodniowy i miesięczny</li>
 					<li>Synchronizacja z innymi urządzeniami</li>
 					<li>Udostępnianie kalendarza znajomym</li>
 				</ul>
