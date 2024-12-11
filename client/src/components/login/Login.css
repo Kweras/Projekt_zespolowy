@@ -1,22 +1,13 @@
-/* Kontener tła strony */
 .login-container {
-    --background: linear-gradient(to bottom, #ffffff, #fce4ec);
-    /* Tło strony */
     font-family: 'Montserrat', sans-serif;
     color: #333;
     position: relative;
     overflow: hidden;
-    /* Zapobiega przewijaniu całej strony */
     display: flex;
     justify-content: center;
-    /* Wyśrodkowanie formularza poziomo */
     align-items: flex-start;
-    /* Wyśrodkowanie formularza pionowo */
-
-    /* Wysokość kontenera na 100% wysokości okna */
 }
 
-/* Formularz logowania */
 .login-form {
     background: linear-gradient(135deg, #a81f7f, #d81b60);
     color: white;
@@ -28,18 +19,15 @@
     max-width: 400px;
     text-align: center;
     margin: 100px 10px 60px 10px;
-    /* Ustawienie marginesu od góry na 150px */
     animation: slideInFromTop 1.5s ease-out;
 }
 
-/* Nagłówek formularza */
 .login-form h2 {
     margin-bottom: 20px;
     font-size: 2.5em;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
 }
 
-/* Style dla kontenerów pól formularza */
 .input-container {
     margin-bottom: 20px;
     text-align: left;
@@ -66,14 +54,12 @@
     box-shadow: 0px 0px 8px rgba(255, 64, 129, 0.5);
 }
 
-/* Komunikat o błędzie */
 .error-message {
     color: #ff4081;
     font-size: 1.1em;
     margin-bottom: 15px;
 }
 
-/* Przycisk logowania */
 .login-btn {
     width: 100%;
     padding: 12px;
@@ -95,7 +81,6 @@
     transform: scale(1);
 }
 
-/* Animacje */
 @keyframes slideInFromTop {
     from {
         opacity: 0;

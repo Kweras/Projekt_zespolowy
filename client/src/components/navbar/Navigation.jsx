@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { IoSettingsOutline, IoCalendarOutline, IoHomeOutline, IoLogOutOutline, IoCalendarNumber, IoCalendarSharp, IoBagAdd, IoAddOutline } from "react-icons/io5";
+import { IoSettingsOutline, IoCalendarOutline, IoHomeOutline, IoLogOutOutline, IoAddOutline } from "react-icons/io5";
 import HamburgerMenu from './HamburgerMenu';
-
 import "./Navigation.css";
-import { ImBoxAdd, ImFolderUpload } from "react-icons/im";
 
 const Navigation = () => {
     const navigate = useNavigate();

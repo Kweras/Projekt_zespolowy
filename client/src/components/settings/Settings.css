@@ -1,0 +1,34 @@
+.settings-page {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 100px;
+}
+
+.settings-page h1 {
+    text-align: center;
+    padding: 20px 0 20px 0;
+}
+
+.settings-page h2 {
+    margin: 20px 0 20px 0;
+}
+
+.hr-line {
+    border: solid;
+    border-color: #a81f7f;
+    border-radius: 10px;
+    margin: 40px 100px 40px 100px;
+}
+
+@media (max-width: 800px) {
+    .settings-page {
+        width: 65%;
+    }
+}
+
+@media (max-width: 600px) {
+    .settings-page {
+        width: 85%;
+    }
+}
