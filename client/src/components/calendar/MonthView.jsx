@@ -1,7 +1,7 @@
 import React from 'react';
-import { shortMonths, polishDayOfWeek, isToday } from '../../utils/calendarUtils';
+import { shortMonths, polishDayOfWeek, isToday, areDatesEqual } from '../../utils/calendarUtils';
 
-const MonthView = ({ currentDate }) => {
+const MonthView = ({ currentDate, events }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -18,21 +18,39 @@ const MonthView = ({ currentDate }) => {
 
   // Generate an array of dates for the calendar
   const days = [];
+  const daysEvents = [];
+
   for (let date = new Date(startDay); date <= endDay; date.setDate(date.getDate() + 1)) {
-    days.push(new Date(date));
+    const obj = {
+      date: new Date(date), 
+      events: []
+    }
+
+    events.forEach(event => {
+      if (areDatesEqual(date, event.start)) {
+        obj.events.push(event);
+        console.log(event, obj.date);
+        
+      }
+    });
+
+    days.push(obj);
   }
+
+  console.log(days, events);
+  
 
   return (
     <div className="month-calendar">
       <CalendarHeader />      
 
-      {days.map((date, index) => (
+      {days.map(({date, events}, index) => (
         <div
           key={index}
           className={`month-calendar-day ${[0, 6].includes(date.getDay()) && 'gray'} ${date.getDay() === 0 && 'last'} ${date.getMonth() === month ? 'month-calendar-current-month' : 'month-calendar-other-month'}`}
         >
           <span className={isToday(date) ? 'today' : ''}>{date.getDate()}</span>
-          {[10, 14, 7].includes(index) && <div className="month-event">Test</div>}
+          <DayEvents events={events}/>
         </div>
       ))}
     </div>
@@ -53,6 +71,18 @@ const CalendarHeader = () => {
       </div>
     ))}
   </>
+}
+
+const DayEvents = ({ events }) => {
+  if (events.length === 0) return;
+
+  return (
+    <>
+      {events.map(event =>
+        <div className={`month-event event-${event.color}`}>{event.name}</div>
+      )}
+    </>
+  )
 }
 
 export default MonthView;

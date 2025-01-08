@@ -3,7 +3,7 @@ import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
 import { getDaysOfTheWeek, getPolishDayOfWeek, getWeekNumber } from '../../utils/calendarUtils';
 
 
-export default function WeekView({ currentDate }) {
+export default function WeekView({ currentDate, events }) {
   const hoursContainerRef = useRef(null);
   const dayColumnRef = useRef(null);
   const [hourIndicator, setHourIndicator] = useState({}); 
@@ -12,6 +12,9 @@ export default function WeekView({ currentDate }) {
   const gridColumnsWithoutScrollbar = `50px 10px 1fr 1fr 1fr 1fr 1fr 1fr 1fr ${scrollBarWidth}px`;
 
   const daysOfTheWeek = getDaysOfTheWeek(getWeekNumber(currentDate), currentDate.getFullYear());
+
+  console.log(daysOfTheWeek);
+  
 
   const daysElement = daysOfTheWeek.map(day => {
     return (<div className="day-container" key={day.getTime()}>{getPolishDayOfWeek(day)} <span>{day.getDate()}</span></div>)
@@ -43,6 +46,30 @@ export default function WeekView({ currentDate }) {
     }
   }, [currentDate]);
 
+  const allDayEvents = [[], [], [], [], [], [], []];
+  const dayEvents = [[], [], [], [], [], [], []];
+
+  events.forEach(event => {
+    let weekDay = event.start.getDay();
+    if (weekDay === 0) weekDay = 7;
+    // If there is no duration, event is full day.
+    if (event.duration === undefined) {
+      allDayEvents[weekDay - 1].push(event);
+    } else {
+      const hours = Math.floor(+event.duration / 60);
+      const minutes = event.duration % 60;
+      const startedQuarters = Math.ceil(minutes / 15);
+
+      dayEvents[weekDay - 1].push({
+        ...event,
+        topPosition: `${(50 * event.start.getHours()) + (Math.floor(event.start.getMinutes() / 15)) * (50/4)}px`,
+        height: `${(50 * hours) + (startedQuarters * (50/4))}px`
+      });
+    }
+  });
+
+  const allDayEventsContainer = allDayEvents.map(el => <AllDayEvent events={el} />)
+
   return (
     <div className="week-view-container" >
       <header style={{gridTemplateColumns: gridColumnsWithoutScrollbar}}>
@@ -55,13 +82,7 @@ export default function WeekView({ currentDate }) {
       <div className="all-day-event-container" style={{gridTemplateColumns: gridColumnsWithoutScrollbar}}>
         <div className="time-container">All day</div>
         <div></div>
-        <div className="all-day-event"></div>
-        <div className="all-day-event"></div>
-        <div className="all-day-event"></div>
-        <div className="all-day-event"></div>
-        <div className="all-day-event"></div>
-        <div className="all-day-event"></div>
-        <div className="all-day-event"></div>
+        {allDayEventsContainer}
         <div></div>
       </div>
 
@@ -98,32 +119,37 @@ export default function WeekView({ currentDate }) {
 
         <div className="day-events" data-day="monday" ref={dayColumnRef}>
           {<HourIndicator {...hourIndicator} />}
+          <DayEvents events={dayEvents[0]} />
           <SpamOfDivs />
           <div></div>
         </div>
         <div className="day-events" data-day="tuesday">
+          <DayEvents events={dayEvents[1]} />
           <SpamOfDivs />
           <div></div>
         </div>
         <div className="day-events" data-day="wednesday">
-          <div className="week-event" style={{ top: `${(50 * 14) + (Math.floor(15 / 15)) * (50/4)}px`, height: `${(50 * 4) - (50/4) * 2}px` }}>Projekt zespołowy</div>
+          <DayEvents events={dayEvents[2]} />
           <SpamOfDivs />
           <div></div>
         </div>
         <div className="day-events" data-day="thursday">
+          <DayEvents events={dayEvents[3]} />
           <SpamOfDivs />
           <div></div>
         </div>
         <div className="day-events" data-day="friday">
+          <DayEvents events={dayEvents[4]} />
           <SpamOfDivs />
           <div></div>
         </div>
         <div className="day-events" data-day="saturday">
-          <div className='week-event'> test</div>
+          <DayEvents events={dayEvents[5]} />
           <SpamOfDivs />
           <div></div>
         </div>
         <div className="day-events" data-day="sunday">
+          <DayEvents events={dayEvents[6]} />
           <SpamOfDivs />
           <div></div>
         </div>
@@ -164,6 +190,26 @@ const SpamOfDivs = () => {
       <div></div>
       <div></div>
       <div></div>
+    </>
+  )
+}
+
+const AllDayEvent = ({events}) => {
+  return (
+    <div className='all-day-event'>
+      {events.map(event => <div key={event.id} className={`event-${event.color}`}>{event.name}</div>)}
+    </div>
+  )
+}
+
+const DayEvents = ({ events }) => {
+  if (events.length === 0) return;
+
+  return (
+    <>
+      {events.map(event =>
+        <div className={`week-event event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
+      )}
     </>
   )
 }

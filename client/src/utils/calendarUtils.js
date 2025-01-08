@@ -27,6 +27,18 @@ export const getTitle = (currentDate, view, short = false) => {
   }
 };
 
+export const areDatesEqual = (date1, date2) => {
+  const day1 = date1.getDate();
+  const month1 = date1.getMonth();
+  const year1 = date1.getFullYear();
+
+  const day2 = date2.getDate();
+  const month2 = date2.getMonth();
+  const year2 = date2.getFullYear();
+
+  return year1 === year2 && month1 === month2 && day1 === day2;
+};
+
 export const isToday = (date) => {
   const today = new Date();
   return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();

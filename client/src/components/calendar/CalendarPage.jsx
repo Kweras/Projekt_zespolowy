@@ -7,8 +7,56 @@ const TEMP_EVENTS = [
   {
     id: 1,
     name: 'Test Event',
-    start: new Date('2024-11-13'),
-    duration: '120'
+    desc: "mam dość.",
+    start: new Date('2025-01-08 10:00'),
+    duration: '120',
+    color: 'blue'
+  }, 
+  {
+    id: 2,
+    name: 'Super Event',
+    desc: "mam dość.",
+    start: new Date('2025-01-09 10:00'),
+    duration: '75',
+    color: 'pink'
+  },
+  {
+    id: 3,
+    name: 'Poprawa systemów operacyjnych',
+    desc: "mam dość.",
+    start: new Date('2025-01-09 14:00'),
+    duration: '75',
+    color: 'pink'
+  },
+  {
+    id: 4,
+    name: 'Wolne',
+    desc: "mam dość.",
+    start: new Date('2025-01-06'),
+    color: 'purple'
+  },
+
+  {
+    id: 5,
+    name: 'Niedziela',
+    desc: "mam dość.",
+    start: new Date('2025-01-12'),
+    color: 'pink'
+  },
+    {
+    id: 6,
+    name: 'To jest niedziela',
+    desc: "mam dość.",
+    start: new Date('2025-01-12'),
+    color: 'yellow'
+  },
+  {
+    id: 7,
+    name: 'Projekt zespołowy',
+    desc: 'okok',
+    start: new Date('2025-01-08 14:15'),
+    duration: 120, 
+    color: 'black'
   }
 ]
 
@@ -27,8 +75,7 @@ const CalendarPage = () => {
     if (options && options.date) {
       setCurrentDate(new Date(options.date))
     }
-
-
+    
     // TODO: Send request to the server
     setEvents(TEMP_EVENTS)
   }, []);

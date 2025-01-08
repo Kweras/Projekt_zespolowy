@@ -77,6 +77,19 @@
 .all-day-event {
   min-height: 20px;
   border-left: 1px solid var(--calendar-border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+}
+
+.all-day-event > div {
+  background-color: rgb(31, 31, 255);
+  color: white;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
 }
 
 .hours-container > div {
@@ -284,4 +297,29 @@
   justify-content: flex-start;
   align-items: center;
   height: 20px;
+}
+
+.event-blue {
+  background-color: blue !important;
+  color: white !important;
+}
+
+.event-yellow {
+  background-color: yellow !important;
+  color: black !important;
+}
+
+.event-purple {
+  background-color: purple !important;
+  color: white !important;
+}
+
+.event-pink {
+  background-color: #ff6cae !important;
+  color: white !important;
+}
+
+.event-black {
+  background-color: rgb(32, 32, 32);
+  color: white;
 }
