@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const { UserModel } = require("./models/user");
+const { UserModel } = require('./models/user');
 
 require('dotenv').config();
 
@@ -13,11 +13,8 @@ app.use(cors());
 mongoose.connect(process.env.MONGO_URL);
 
 app.listen(3001, () => {
-  console.log("Server is running with nodemon on port 3001.");
+  console.log('Server is running with nodemon on port 3001.');
 });
-
-
-
 
 //Rejestracja
 app.post('/register', async (req, res) => {
@@ -26,19 +23,18 @@ app.post('/register', async (req, res) => {
     const e = await UserModel.findOne({ email });
     if (e != null) {
       if (e.email == email) {
-        throw new Error("User with this email already exists!")
+        throw new Error('User with this email already exists!');
       }
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new UserModel({ nick, email, password: hashedPassword });
     await user.save();
-    console.log(req.body)
+    console.log(req.body);
     res.status(201).send('Account created');
   } catch (error) {
     res.status(500).send('Error: ' + console.error(error));
   }
 });
-
 
 //Logowanie
 app.post('/login', async (req, res) => {
@@ -62,8 +58,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-app.get("/getEvents", async (req, res) => {
+app.get('/getEvents', async (req, res) => {
   const { _id, type } = req.query;
 
   if (!_id || (type != 0 && type != 1)) {
@@ -76,33 +71,25 @@ app.get("/getEvents", async (req, res) => {
     if (!user) {
       return res.status(404).send('User not found!');
     }
-    if(type == 0){
+    if (type == 0) {
       return res.status(200).json({
-        events: user.events
+        events: user.events,
+      });
+    } else {
+      return res.status(200).json({
+        dated_events: user.dated_events,
       });
     }
-    else{
-      return res.status(200).json({
-        dated_events: user.dated_events
-      });
-    }
-    
   } catch (error) {
-    console.error("Error occurred while retrieving events:", error);
+    console.error('Error occurred while retrieving events:', error);
     return res.status(500).send('ERROR!!!');
   }
 });
 
-
-
-app.post("/createEvent", async (req, res) => {
+app.post('/createEvent', async (req, res) => {
   const { _id, event } = req.body;
   try {
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      _id,
-      { $push: { events: event } },
-      { new: true, useFindAndModify: false }
-    );
+    const updatedUser = await UserModel.findByIdAndUpdate(_id, { $push: { events: event } }, { new: true, useFindAndModify: false });
 
     if (!updatedUser) {
       return res.status(404).send('User not found');
@@ -111,16 +98,13 @@ app.post("/createEvent", async (req, res) => {
     const newEvent = updatedUser.events[updatedUser.events.length - 1];
 
     return res.status(200).json(newEvent);
-
   } catch (error) {
-    console.error("Error occurred while creating an event:", error);
+    console.error('Error occurred while creating an event:', error);
     return res.status(500).send('Error');
   }
 });
 
-
-
-app.post("/updateEvent", async (req, res) => {
+app.post('/updateEvent', async (req, res) => {
   const { _id, _eventId, updatedEvent, type } = req.body;
 
   if (!_id || !_eventId || !updatedEvent || (type != 0 && type != 1)) {
@@ -135,20 +119,22 @@ app.post("/updateEvent", async (req, res) => {
     }
 
     let eventIndex;
-    
-    if (type === 0) { // for not dated events
-      eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+
+    if (type === 0) {
+      // for not dated events
+      eventIndex = user.events.findIndex((event) => event._id.toString() === _eventId);
       if (eventIndex === -1) {
         return res.status(404).send('Event not found!');
       }
-      
+
       Object.assign(user.events[eventIndex], updatedEvent);
-    } else { // for dated events
-      eventIndex = user.dated_events.findIndex(event => event._id.toString() === _eventId);
+    } else {
+      // for dated events
+      eventIndex = user.dated_events.findIndex((event) => event._id.toString() === _eventId);
       if (eventIndex === -1) {
         return res.status(404).send('Dated event not found!');
       }
-      
+
       Object.assign(user.dated_events[eventIndex], updatedEvent);
     }
 
@@ -156,22 +142,21 @@ app.post("/updateEvent", async (req, res) => {
 
     return res.status(200).send('Event updated.');
   } catch (error) {
-    console.error("Error occurred while updating events:", error);
+    console.error('Error occurred while updating events:', error);
     return res.status(500).send('ERROR!!!');
   }
 });
 
-
-app.post("/deleteEvent", async (req, res) => {
+app.post('/deleteEvent', async (req, res) => {
   const { _id, _eventId, type } = req.body;
 
   if (!_id || !_eventId || (type != 0 && type != 1)) {
     return res.status(400).send('Missing parameters or invalid type!');
   }
-  
+
   try {
     const user = await UserModel.findById(_id);
-    
+
     if (!user) {
       return res.status(404).send('User not found!');
     }
@@ -179,14 +164,14 @@ app.post("/deleteEvent", async (req, res) => {
     let eventIndex;
     if (type === 0) {
       // remove from events
-      eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+      eventIndex = user.events.findIndex((event) => event._id.toString() === _eventId);
       if (eventIndex === -1) {
         return res.status(404).send('Event not found in events!');
       }
       user.events.splice(eventIndex, 1);
     } else {
       // remove from dated-events
-      eventIndex = user.dated_events.findIndex(event => event._id.toString() === _eventId);
+      eventIndex = user.dated_events.findIndex((event) => event._id.toString() === _eventId);
       if (eventIndex === -1) {
         return res.status(404).send('Event not found in dated events!');
       }
@@ -197,11 +182,10 @@ app.post("/deleteEvent", async (req, res) => {
 
     return res.status(200).send('Event deleted.');
   } catch (error) {
-    console.error("Error occurred while deleting an event:", error);
+    console.error('Error occurred while deleting an event:', error);
     return res.status(500).send('ERROR!!!');
   }
 });
-
 
 app.post('/copyEvent', async (req, res) => {
   const { _id, _eventId } = req.body;
@@ -222,12 +206,12 @@ app.post('/copyEvent', async (req, res) => {
     if (!event) {
       return res.status(404).send('Event not found!');
     }
-    
+
     //copy of an event
     const eventCopy = {
       name: event.name,
       desc: event.desc,
-      color: event.color
+      color: event.color,
     };
 
     user.events.push(eventCopy);
@@ -236,11 +220,10 @@ app.post('/copyEvent', async (req, res) => {
 
     return res.status(200).send('Event copied.');
   } catch (error) {
-    console.error("Error occurred while coping an event:", error);
+    console.error('Error occurred while coping an event:', error);
     return res.status(500).send('ERROR!!!');
   }
 });
-
 
 app.post('/moveEvent', async (req, res) => {
   const { _id, _eventId, date, duration } = req.body;
@@ -251,14 +234,13 @@ app.post('/moveEvent', async (req, res) => {
       return res.status(404).send('User not found!');
     }
 
-    const eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+    const eventIndex = user.events.findIndex((event) => event._id.toString() === _eventId);
     if (eventIndex === -1) {
       return res.status(404).send('Event not found!');
     }
 
     const eventToMove = user.events[eventIndex];
-    
-    
+
     if (duration === undefined || duration <= 0) {
       return res.status(400).send('Invalid duration!');
     }
@@ -267,26 +249,27 @@ app.post('/moveEvent', async (req, res) => {
       name: eventToMove.name,
       desc: eventToMove.desc,
       color: eventToMove.color,
-      dates: [{
-        start: new Date(date),
-        duration: duration 
-      }]
+      dates: [
+        {
+          start: new Date(date),
+          duration: duration,
+        },
+      ],
     };
 
     user.events.splice(eventIndex, 1);
-    user.dated_events.push(datedEvent); 
+    user.dated_events.push(datedEvent);
 
     await user.save();
 
     return res.status(200).send('Event moved.');
   } catch (error) {
-    console.error("Error occurred while moving an event:", error);
+    console.error('Error occurred while moving an event:', error);
     return res.status(500).send('ERROR!!!');
   }
 });
 
-
-app.post("/addDate", async (req, res) => {
+app.post('/addDate', async (req, res) => {
   const { _id, _eventId, start, duration } = req.body;
 
   if (!_id || !_eventId || !start || !duration) {
@@ -303,16 +286,16 @@ app.post("/addDate", async (req, res) => {
 
     const newDateEntry = {
       start: parsedStart,
-      duration: parsedDuration
+      duration: parsedDuration,
     };
 
     const updatedUser = await UserModel.findOneAndUpdate(
       {
         _id: _id,
-        'dated_events._id': _eventId
+        'dated_events._id': _eventId,
       },
       {
-        $addToSet: { 'dated_events.$.dates': newDateEntry }
+        $addToSet: { 'dated_events.$.dates': newDateEntry },
       },
       { new: true }
     );
@@ -323,11 +306,10 @@ app.post("/addDate", async (req, res) => {
 
     res.status(200).send('Date added successfully.');
   } catch (error) {
-    console.error("Error occurred while adding a date to a dated_event:", error);
+    console.error('Error occurred while adding a date to a dated_event:', error);
     res.status(500).send('ERROR!!!');
   }
 });
-
 
 app.post('/removeDate', async (req, res) => {
   const { _id, _eventId, _dateId } = req.body;
@@ -347,15 +329,15 @@ app.post('/removeDate', async (req, res) => {
       return res.status(404).send('Event not found!');
     }
 
-    const dateIndex = datedEvent.dates.findIndex(date => date._id.toString() === _dateId);
+    const dateIndex = datedEvent.dates.findIndex((date) => date._id.toString() === _dateId);
     if (dateIndex !== -1) {
       datedEvent.dates.splice(dateIndex, 1);
       await user.save();
 
       if (datedEvent.dates.length === 0) {
-        const eventIndex = user.dated_events.findIndex(event => event._id.toString() === _eventId);
+        const eventIndex = user.dated_events.findIndex((event) => event._id.toString() === _eventId);
         user.dated_events.splice(eventIndex, 1);
-        await user.save(); 
+        await user.save();
         return res.status(200).send('Event removed (no dates left).');
       }
 
@@ -364,14 +346,15 @@ app.post('/removeDate', async (req, res) => {
       return res.status(404).send('Date not found!');
     }
   } catch (error) {
-    console.error("Error occurred while removing a date from dated_event:", error);
+    console.error('Error occurred while removing a date from dated_event:', error);
     res.status(500).send('ERROR!!!');
   }
 });
 
-
 app.get('/getEventsByDate', async (req, res) => {
   const { _id, from, to } = req.query;
+
+  console.log(req.query);
 
   if (!_id || !from || !to) {
     return res.status(400).send('Missing parameters!');
@@ -391,8 +374,8 @@ app.get('/getEventsByDate', async (req, res) => {
     }
 
     const eventsInRange = user.dated_events
-      .map(event => {
-        const filteredDates = event.dates.filter(eventDate => {
+      .map((event) => {
+        const filteredDates = event.dates.filter((eventDate) => {
           return eventDate.start >= fromDate && eventDate.start <= toDate;
         });
 
@@ -402,15 +385,15 @@ app.get('/getEventsByDate', async (req, res) => {
             name: event.name,
             desc: event.desc,
             color: event.color,
-            dates: filteredDates
+            dates: filteredDates,
           };
         }
       })
-      .filter(event => event !== undefined);
+      .filter((event) => event !== undefined);
 
     return res.status(200).json(eventsInRange);
   } catch (error) {
-    console.error("Error occurred while retrieving events:", error);
+    console.error('Error occurred while retrieving events:', error);
     return res.status(500).send('ERROR!!!');
   }
 });

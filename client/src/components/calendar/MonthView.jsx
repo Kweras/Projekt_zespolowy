@@ -1,7 +1,7 @@
 import React from 'react';
-import { shortMonths, polishDayOfWeek, isToday } from '../../utils/calendarUtils';
+import { shortMonths, polishDayOfWeek, isToday, areDatesEqual, formatHour, fixTextWidth, formatDateToYYYYMMDD } from '../../utils/calendarUtils';
 
-const MonthView = ({ currentDate }) => {
+const MonthView = ({ currentDate, events, handleModalOpen }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -18,21 +18,46 @@ const MonthView = ({ currentDate }) => {
 
   // Generate an array of dates for the calendar
   const days = [];
+
   for (let date = new Date(startDay); date <= endDay; date.setDate(date.getDate() + 1)) {
-    days.push(new Date(date));
+    const obj = {
+      date: new Date(date), 
+      events: []
+    }
+
+    events.forEach(event => {
+      if (areDatesEqual(date, event.start)) {
+        obj.events.push(event);        
+      }
+    });
+
+    days.push(obj);
+  }  
+
+  const handleDayClick = (e) => {
+    const event = e.nativeEvent;
+
+    if (!(event.target.classList.contains('month-calendar-day') || event.target.classList.contains('month-calendar-date'))) {
+      return;
+    }
+    const date = event.target.dataset.date;    
+    console.log(date);
+    handleModalOpen(date);
   }
 
   return (
     <div className="month-calendar">
       <CalendarHeader />      
 
-      {days.map((date, index) => (
+      {days.map(({date, events}, index) => (
         <div
           key={index}
+          data-date={formatDateToYYYYMMDD(date)}
+          onClick={handleDayClick}
           className={`month-calendar-day ${[0, 6].includes(date.getDay()) && 'gray'} ${date.getDay() === 0 && 'last'} ${date.getMonth() === month ? 'month-calendar-current-month' : 'month-calendar-other-month'}`}
         >
-          <span className={isToday(date) ? 'today' : ''}>{date.getDate()}</span>
-          {[10, 14, 7].includes(index) && <div className="month-event">Test</div>}
+          <span className={isToday(date) ? 'today month-calendar-date' : 'month-calendar-date'}>{date.getDate()}</span>
+          <DayEvents events={events}/>
         </div>
       ))}
     </div>
@@ -53,6 +78,24 @@ const CalendarHeader = () => {
       </div>
     ))}
   </>
+}
+
+const DayEvents = ({ events }) => {
+  if (events.length === 0) return;
+
+  return (
+    <>
+      {events.map(event => {
+        let isPartDay = !(event.duration > 0);
+        
+        return (<div key={event.id} className={`month-event event-${event.color}`}>
+          <p>{fixTextWidth(event.name, 20)}</p>
+          {!isPartDay && <p>{formatHour(event.start)}</p>}
+        </div>)
+      }
+      )}
+    </>
+  )
 }
 
 export default MonthView;

@@ -25,6 +25,7 @@
   width: 70px;
   border-radius: 3px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .buttons-group > button.active {
@@ -66,7 +67,7 @@
   color: #b0b0b0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   font-size: 12px;
 }
 
@@ -77,6 +78,19 @@
 .all-day-event {
   min-height: 20px;
   border-left: 1px solid var(--calendar-border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+}
+
+.all-day-event > div {
+  background-color: rgb(31, 31, 255);
+  color: white;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
 }
 
 .hours-container > div {
@@ -159,6 +173,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: auto;
+  color: unset;
 }
 
 .buttons-container > button.square {
@@ -281,7 +297,52 @@
   padding: 0 3px;
   font-size: 12px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   height: 20px;
+  position: relative;
+}
+
+.event-blue {
+  background-color: blue !important;
+  color: white !important;
+}
+
+.event-yellow {
+  background-color: yellow !important;
+  color: black !important;
+}
+
+.event-purple {
+  background-color: purple !important;
+  color: white !important;
+}
+
+.event-pink {
+  background-color: #ff6cae !important;
+  color: white !important;
+}
+
+.event-black {
+  background-color: rgb(32, 32, 32);
+  color: white;
+}
+
+.calendar-modal-container {
+  position: fixed;
+  top: 0;
+  min-height: 100vh;
+  width: 100vw;
+  z-index: 2138;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: 0 0 10px rgba(0, 0, 0, 0.5);
 }
