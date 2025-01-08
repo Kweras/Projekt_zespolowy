@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
-import { getDaysOfTheWeek, getPolishDayOfWeek, getWeekNumber } from '../../utils/calendarUtils';
+import { formatDateToYYYYMMDD, getDaysOfTheWeek, getPolishDayOfWeek, getWeekNumber } from '../../utils/calendarUtils';
 
 
-export default function WeekView({ currentDate, events }) {
+export default function WeekView({ currentDate, events, handleModalOpen }) {
   const hoursContainerRef = useRef(null);
   const dayColumnRef = useRef(null);
   const [hourIndicator, setHourIndicator] = useState({}); 
@@ -13,8 +13,12 @@ export default function WeekView({ currentDate, events }) {
 
   const daysOfTheWeek = getDaysOfTheWeek(getWeekNumber(currentDate), currentDate.getFullYear());
   
+  const handleDayClickHeader = (event) => {
+    handleModalOpen(event.nativeEvent.target.dataset.date);
+  }
+
   const daysElement = daysOfTheWeek.map(day => {
-    return (<div className="day-container" key={day.getTime()}>{getPolishDayOfWeek(day)} <span>{day.getDate()}</span></div>)
+    return (<div className="day-container" onClick={handleDayClickHeader} data-date={formatDateToYYYYMMDD(day)} key={day.getTime()}>{getPolishDayOfWeek(day)} <span style={{pointerEvents: 'none'}}>{day.getDate()}</span></div>)
   });
 
   useEffect(() => {

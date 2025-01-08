@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Calendar from "./Calendar";
 import "./Calendar.css"
 import { formatDateToYYYYMMDD, getDaysOfTheWeek, getTitle, getWeekNumber } from "../../utils/calendarUtils";
+import CalendarForm from "./CalendarForm";
 
 const TEMP_EVENTS = [
   {
@@ -63,7 +64,10 @@ const TEMP_EVENTS = [
 const CalendarPage = () => {
   const [selectedView, setSelectedView] = useState("week");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
+
+  const [isModalShow, setIsModalShow] = useState(false);
+  const [modalStartDate, setModalStartDate] = useState(formatDateToYYYYMMDD(new Date()));
 
   useEffect(() => {
     const asyncFn = async () => {
@@ -120,6 +124,16 @@ const CalendarPage = () => {
 
     asyncFn()
   }, []);
+
+  const handleModalOpen = (date) => {
+    setIsModalShow(true);
+    setModalStartDate(date);
+  }
+
+  const handleModalClose = () => {
+    setIsModalShow(false);
+    setModalStartDate(formatDateToYYYYMMDD(new Date()))
+  }
 
   const updateLocalStorage = (view, date) => {
     localStorage.setItem('calendar-options', JSON.stringify({
@@ -193,7 +207,9 @@ const CalendarPage = () => {
       </header>
 
 
-      <Calendar selectedView={selectedView} currentDate={currentDate} events={events} />
+      <Calendar selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
+
+      {isModalShow && <CalendarForm startDate={modalStartDate} hideModal={setIsModalShow} />}
     </div>
   )
 }
