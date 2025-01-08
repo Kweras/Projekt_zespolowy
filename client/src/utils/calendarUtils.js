@@ -27,6 +27,18 @@ export const getTitle = (currentDate, view, short = false) => {
   }
 };
 
+export const areDatesEqual = (date1, date2) => {
+  const day1 = date1.getDate();
+  const month1 = date1.getMonth();
+  const year1 = date1.getFullYear();
+
+  const day2 = date2.getDate();
+  const month2 = date2.getMonth();
+  const year2 = date2.getFullYear();
+
+  return year1 === year2 && month1 === month2 && day1 === day2;
+};
+
 export const isToday = (date) => {
   const today = new Date();
   return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
@@ -69,4 +81,25 @@ export const getDaysOfTheWeek = (week, year) => {
   }
 
   return daysOfWeek;
+};
+
+export const formatHour = (date) => {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+
+  hours = hours.toString().padStart(2, '0');
+  minutes = minutes.toString().padStart(2, '0');
+
+  return `${hours}:${minutes}`;
+};
+
+export const fixTextWidth = (text, width) => {
+  return text.length > width ? text.slice(0, width) + '...' : text;
+};
+
+export const formatDateToYYYYMMDD = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 };

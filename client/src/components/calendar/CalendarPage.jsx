@@ -1,37 +1,139 @@
 import { useEffect, useState } from "react";
 import Calendar from "./Calendar";
 import "./Calendar.css"
-import { getTitle } from "../../utils/calendarUtils";
+import { formatDateToYYYYMMDD, getDaysOfTheWeek, getTitle, getWeekNumber } from "../../utils/calendarUtils";
+import CalendarForm from "./CalendarForm";
 
 const TEMP_EVENTS = [
   {
     id: 1,
     name: 'Test Event',
-    start: new Date('2024-11-13'),
-    duration: '120'
+    desc: "mam dość.",
+    start: new Date('2025-01-08 10:00'),
+    duration: '120',
+    color: 'blue'
+  }, 
+  {
+    id: 2,
+    name: 'Super Event',
+    desc: "mam dość.",
+    start: new Date('2025-01-09 10:00'),
+    duration: '75',
+    color: 'pink'
+  },
+  {
+    id: 3,
+    name: 'Poprawa systemów operacyjnych',
+    desc: "mam dość.",
+    start: new Date('2025-01-09 14:00'),
+    duration: '75',
+    color: 'pink'
+  },
+  {
+    id: 4,
+    name: 'Wolne',
+    desc: "mam dość.",
+    start: new Date('2025-01-06'),
+    color: 'purple'
+  },
+
+  {
+    id: 5,
+    name: 'Niedziela',
+    desc: "mam dość.",
+    start: new Date('2025-01-12'),
+    color: 'pink'
+  },
+    {
+    id: 6,
+    name: 'To jest niedziela',
+    desc: "mam dość.",
+    start: new Date('2025-01-12'),
+    color: 'yellow'
+  },
+  {
+    id: 7,
+    name: 'Projekt zespołowy',
+    desc: 'okok',
+    start: new Date('2025-01-08 14:15'),
+    duration: 120, 
+    color: 'black'
   }
 ]
 
 const CalendarPage = () => {
   const [selectedView, setSelectedView] = useState("week");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
+
+  const [isModalShow, setIsModalShow] = useState(false);
+  const [modalStartDate, setModalStartDate] = useState(formatDateToYYYYMMDD(new Date()));
 
   useEffect(() => {
-    const options = JSON.parse(localStorage.getItem('calendar-options'))
-
+    const asyncFn = async () => {
+      const options = JSON.parse(localStorage.getItem('calendar-options'));
+      let view = "week";
+    
     if (options && options.view) {
       setSelectedView(options.view)
+      view = options.view
     }
 
     if (options && options.date) {
       setCurrentDate(new Date(options.date))
     }
+      
+      let userId = localStorage.getItem('userID')
+      
+      let startDay;
+      let endDay;
+      let currentDate = new Date()
 
+      if (view === "week") {
+        const dates = getDaysOfTheWeek(getWeekNumber(currentDate), currentDate.getFullYear());
+        startDay = dates[0];
+        endDay = dates[6];
+      } else {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
 
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+
+        startDay = new Date(firstDayOfMonth);
+        const dayOfWeek = firstDayOfMonth.getDay();
+        // Set to previous Monday if not Monday
+        startDay.setDate(firstDayOfMonth.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); 
+
+        endDay = new Date(lastDayOfMonth);
+        endDay.setDate(lastDayOfMonth.getDate() + (7 - endDay.getDay()) % 7);
+      }
+
+      console.log(startDay, endDay);
+
+      try {
+        const events = await fetch(`http://localhost:3001/getEventsByDate?_id=${userId}&from=${formatDateToYYYYMMDD(startDay)}&to=${formatDateToYYYYMMDD(endDay)}`, )
+        console.log(events);
+      } catch (error) {
+        console.error(error)
+      }
+    
     // TODO: Send request to the server
     setEvents(TEMP_EVENTS)
+    }
+
+    asyncFn()
   }, []);
+
+  const handleModalOpen = (date) => {
+    setIsModalShow(true);
+    setModalStartDate(date);
+  }
+
+  const handleModalClose = () => {
+    setIsModalShow(false);
+    setModalStartDate(formatDateToYYYYMMDD(new Date()))
+  }
 
   const updateLocalStorage = (view, date) => {
     localStorage.setItem('calendar-options', JSON.stringify({
@@ -66,7 +168,7 @@ const CalendarPage = () => {
   }
 
   return (
-    <div className='calendar-page-container'>
+    <div className='calendar-page-container' style={{padding: '20px', backgroundColor: 'white'}}>
       <header className="calendar-header">
         <div className="calendar-header-title">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style={{ cursor: "pointer" }} onClick={() => {
@@ -105,7 +207,9 @@ const CalendarPage = () => {
       </header>
 
 
-      <Calendar selectedView={selectedView} currentDate={currentDate} events={events} />
+      <Calendar selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
+
+      {isModalShow && <CalendarForm startDate={modalStartDate} hideModal={setIsModalShow} />}
     </div>
   )
 }
