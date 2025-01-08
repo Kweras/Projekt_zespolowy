@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Calendar from "./Calendar";
 import "./Calendar.css"
-import { getTitle } from "../../utils/calendarUtils";
+import { formatDateToYYYYMMDD, getDaysOfTheWeek, getTitle, getWeekNumber } from "../../utils/calendarUtils";
 
 const TEMP_EVENTS = [
   {
@@ -66,18 +66,59 @@ const CalendarPage = () => {
   const [events, setEvents] = useState([])
 
   useEffect(() => {
-    const options = JSON.parse(localStorage.getItem('calendar-options'))
-
+    const asyncFn = async () => {
+      const options = JSON.parse(localStorage.getItem('calendar-options'));
+      let view = "week";
+    
     if (options && options.view) {
       setSelectedView(options.view)
+      view = options.view
     }
 
     if (options && options.date) {
       setCurrentDate(new Date(options.date))
     }
+      
+      let userId = localStorage.getItem('userID')
+      
+      let startDay;
+      let endDay;
+      let currentDate = new Date()
+
+      if (view === "week") {
+        const dates = getDaysOfTheWeek(getWeekNumber(currentDate), currentDate.getFullYear());
+        startDay = dates[0];
+        endDay = dates[6];
+      } else {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+
+        startDay = new Date(firstDayOfMonth);
+        const dayOfWeek = firstDayOfMonth.getDay();
+        // Set to previous Monday if not Monday
+        startDay.setDate(firstDayOfMonth.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); 
+
+        endDay = new Date(lastDayOfMonth);
+        endDay.setDate(lastDayOfMonth.getDate() + (7 - endDay.getDay()) % 7);
+      }
+
+      console.log(startDay, endDay);
+
+      try {
+        const events = await fetch(`http://localhost:3001/getEventsByDate?_id=${userId}&from=${formatDateToYYYYMMDD(startDay)}&to=${formatDateToYYYYMMDD(endDay)}`, )
+        console.log(events);
+      } catch (error) {
+        console.error(error)
+      }
     
     // TODO: Send request to the server
     setEvents(TEMP_EVENTS)
+    }
+
+    asyncFn()
   }, []);
 
   const updateLocalStorage = (view, date) => {
