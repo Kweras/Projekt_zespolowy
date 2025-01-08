@@ -56,7 +56,7 @@ const MonthView = ({ currentDate, events, handleModalOpen }) => {
           onClick={handleDayClick}
           className={`month-calendar-day ${[0, 6].includes(date.getDay()) && 'gray'} ${date.getDay() === 0 && 'last'} ${date.getMonth() === month ? 'month-calendar-current-month' : 'month-calendar-other-month'}`}
         >
-          <span className={isToday(date) ? 'today month-calendar-date' : 'month-calendar-date'}>{date.getDate()}</span>
+          <span data-date={formatDateToYYYYMMDD(date)} className={isToday(date) ? 'today month-calendar-date' : 'month-calendar-date'}>{date.getDate()}</span>
           <DayEvents events={events}/>
         </div>
       ))}
