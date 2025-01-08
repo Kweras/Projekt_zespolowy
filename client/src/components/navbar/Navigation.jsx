@@ -17,6 +17,8 @@ const Navigation = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('nickname');
+        localStorage.removeItem('userID');
         navigate('/');
         window.location.reload();
     };

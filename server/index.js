@@ -39,6 +39,53 @@ app.post('/register', async (req, res) => {
   }
 });
 
+app.put('/changeNick', async (req, res) => {
+  try {
+    const { _id, password, newNick } = req.body;
+    console.log(req.body)
+    const e = await UserModel.findOne({ _id });
+    if (e != null) {
+      const isMatch = await bcrypt.compare(password, e.password);
+      if (isMatch) {
+        e.nick = newNick;
+      } else {
+        throw new Error("Password incorrect");
+      }
+      await e.save();
+      res.status(200).send('Nick changed');
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error: ' + console.error(error));
+    throw new Error("Login or password incorrect")
+
+  }
+});
+//linia 45, sttingspage.jsx const response = await fetch('http://localhost:3001/changeNick',
+app.put('/changePassword', async (req, res) => {
+  try {
+    const { _id, oldPassword, newPassword } = req.body;
+    console.log(req.body)
+
+    const e = await UserModel.findOne({ _id });
+    if (e != null) {
+      const isMatch = await bcrypt.compare(oldPassword, e.password);
+
+      if (isMatch) {
+        e.password = await bcrypt.hash(newPassword, 10);
+      }
+      await e.save();
+      res.status(200).send('Password changed');
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error: ' + console.error(error));
+    throw new Error("Login or password incorrect")
+
+  }
+});
 
 //Logowanie
 app.post('/login', async (req, res) => {
@@ -55,7 +102,7 @@ app.post('/login', async (req, res) => {
     }
 
     //console.log(user)
-    res.status(200).json({ _id: user._id });
+    res.status(200).json({ _id: user._id, nick: user.nick });
   } catch (error) {
     console.error('Error logging in', error);
     res.status(500).send('Error logging in');
@@ -76,17 +123,17 @@ app.get("/getEvents", async (req, res) => {
     if (!user) {
       return res.status(404).send('User not found!');
     }
-    if(type == 0){
+    if (type == 0) {
       return res.status(200).json({
         events: user.events
       });
     }
-    else{
+    else {
       return res.status(200).json({
         dated_events: user.dated_events
       });
     }
-    
+
   } catch (error) {
     console.error("Error occurred while retrieving events:", error);
     return res.status(500).send('ERROR!!!');
@@ -135,20 +182,20 @@ app.post("/updateEvent", async (req, res) => {
     }
 
     let eventIndex;
-    
+
     if (type === 0) { // for not dated events
       eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
       if (eventIndex === -1) {
         return res.status(404).send('Event not found!');
       }
-      
+
       Object.assign(user.events[eventIndex], updatedEvent);
     } else { // for dated events
       eventIndex = user.dated_events.findIndex(event => event._id.toString() === _eventId);
       if (eventIndex === -1) {
         return res.status(404).send('Dated event not found!');
       }
-      
+
       Object.assign(user.dated_events[eventIndex], updatedEvent);
     }
 
@@ -168,10 +215,10 @@ app.post("/deleteEvent", async (req, res) => {
   if (!_id || !_eventId || (type != 0 && type != 1)) {
     return res.status(400).send('Missing parameters or invalid type!');
   }
-  
+
   try {
     const user = await UserModel.findById(_id);
-    
+
     if (!user) {
       return res.status(404).send('User not found!');
     }
@@ -222,7 +269,7 @@ app.post('/copyEvent', async (req, res) => {
     if (!event) {
       return res.status(404).send('Event not found!');
     }
-    
+
     //copy of an event
     const eventCopy = {
       name: event.name,
@@ -257,8 +304,8 @@ app.post('/moveEvent', async (req, res) => {
     }
 
     const eventToMove = user.events[eventIndex];
-    
-    
+
+
     if (duration === undefined || duration <= 0) {
       return res.status(400).send('Invalid duration!');
     }
@@ -269,12 +316,12 @@ app.post('/moveEvent', async (req, res) => {
       color: eventToMove.color,
       dates: [{
         start: new Date(date),
-        duration: duration 
+        duration: duration
       }]
     };
 
     user.events.splice(eventIndex, 1);
-    user.dated_events.push(datedEvent); 
+    user.dated_events.push(datedEvent);
 
     await user.save();
 
@@ -355,7 +402,7 @@ app.post('/removeDate', async (req, res) => {
       if (datedEvent.dates.length === 0) {
         const eventIndex = user.dated_events.findIndex(event => event._id.toString() === _eventId);
         user.dated_events.splice(eventIndex, 1);
-        await user.save(); 
+        await user.save();
         return res.status(200).send('Event removed (no dates left).');
       }
 

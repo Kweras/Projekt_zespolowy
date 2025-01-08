@@ -2,12 +2,13 @@ import { useState } from "react";
 import './Settings.css'
 
 const SettingsPage = () => {
-  const [oldPassowrd, setOldPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repatedNewPassword, setRepeatedNewPassword] = useState('');
   const [newNick, setNewNick] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [nickname, setNickname] = useState(localStorage.getItem('nickname'));
 
   const handlePasswordSubmit = async (event) => {
     event.preventDefault();
@@ -24,7 +25,7 @@ const SettingsPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ _id: localStorage.getItem('userID'), oldPassword, newPassword }),
       });
       if (response.ok) {
         console.log('Password changed successfully');
@@ -41,17 +42,21 @@ const SettingsPage = () => {
     event.preventDefault();
     setError('');
 
+    //sprawdzianie hasła
+
     try {
       const response = await fetch('http://localhost:3001/changeNick', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ _id: localStorage.getItem('userID'), password, newNick }),
       });
 
       if (response.ok) {
         console.log('Nick changed successfully');
+        localStorage.setItem('nickname', newNick);
+        setNickname(newNick);
       } else {
         setError('Error changing nick');
       }
@@ -64,6 +69,7 @@ const SettingsPage = () => {
   return (
     <div className="settings-page">
       <h1>Ustawienia</h1>
+      <p>Witaj, {nickname}!</p>
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handlePasswordSubmit}>
         <h2>Zmiana hasła</h2>
@@ -72,7 +78,7 @@ const SettingsPage = () => {
           <input
             type="password"
             id="oldpassowrd"
-            value={oldPassowrd}
+            value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
             required
           />

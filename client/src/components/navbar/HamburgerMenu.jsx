@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './HamburgerMenu.css';
-import { IoLogOutOutline } from 'react-icons/io5';
-
 
 const HamburgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
