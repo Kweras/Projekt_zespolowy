@@ -1,6 +1,19 @@
 .outer-container {
   display: flex;
-  width: 100%;
+  width: 90%;
+  margin: 20px auto 20px auto;
+}
+
+@media (max-width: 800px) {
+  .outer-container {
+    flex-direction: column-reverse;
+    width: 90%;
+    margin: 20px auto 20px auto;
+  }
+
+  .form-container {
+    width: 100%;
+  }
 }
 
 .create-event-form {

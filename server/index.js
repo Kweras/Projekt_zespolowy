@@ -36,6 +36,55 @@ app.post('/register', async (req, res) => {
   }
 });
 
+
+app.put('/changeNick', async (req, res) => {
+  try {
+    const { _id, password, newNick } = req.body;
+    console.log(req.body)
+    const e = await UserModel.findOne({ _id });
+    if (e != null) {
+      const isMatch = await bcrypt.compare(password, e.password);
+      if (isMatch) {
+        e.nick = newNick;
+      } else {
+        throw new Error("Password incorrect");
+      }
+      await e.save();
+      res.status(200).send('Nick changed');
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error: ' + console.error(error));
+    throw new Error("Login or password incorrect")
+
+  }
+});
+//linia 45, sttingspage.jsx const response = await fetch('http://localhost:3001/changeNick',
+app.put('/changePassword', async (req, res) => {
+  try {
+    const { _id, oldPassword, newPassword } = req.body;
+    console.log(req.body)
+
+    const e = await UserModel.findOne({ _id });
+    if (e != null) {
+      const isMatch = await bcrypt.compare(oldPassword, e.password);
+
+      if (isMatch) {
+        e.password = await bcrypt.hash(newPassword, 10);
+      }
+      await e.save();
+      res.status(200).send('Password changed');
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send('Error: ' + console.error(error));
+    throw new Error("Login or password incorrect")
+
+  }
+});
+
 //Logowanie
 app.post('/login', async (req, res) => {
   try {
@@ -51,7 +100,7 @@ app.post('/login', async (req, res) => {
     }
 
     //console.log(user)
-    res.status(200).json({ _id: user._id });
+    res.status(200).json({ _id: user._id, nick: user.nick });
   } catch (error) {
     console.error('Error logging in', error);
     res.status(500).send('Error logging in');
@@ -120,9 +169,9 @@ app.post('/updateEvent', async (req, res) => {
 
     let eventIndex;
 
-    if (type === 0) {
-      // for not dated events
-      eventIndex = user.events.findIndex((event) => event._id.toString() === _eventId);
+    if (type === 0) { // for not dated events
+      eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
+
       if (eventIndex === -1) {
         return res.status(404).send('Event not found!');
       }

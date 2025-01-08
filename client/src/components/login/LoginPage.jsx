@@ -21,6 +21,7 @@ const LoginPage = () => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('isLoggedIn', true);
+                localStorage.setItem('nickname', data.nick);
                 localStorage.setItem('userID', data._id);
                 navigate('/');
                 window.location.reload();
