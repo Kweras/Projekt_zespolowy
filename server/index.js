@@ -39,6 +39,58 @@ app.post('/register', async (req, res) => {
   }
 });
 
+//zmiana hasła TODO
+
+app.post('/changeNick', async (req, res) => {
+  try {
+    const { _id, oldPassword, newName } = req.body;
+    const e = await UserModel.findOne({ _id });
+    if (e != null) {
+      if (e.password == bcrypt.hash(oldPassword, 10)) {
+        e.nick = newName;
+      }
+      await user.save();
+    }} catch (error) {
+      throw new Error("Login or password incorrect")
+    
+}});
+
+//linia 45, sttingspage.jsx const response = await fetch('http://localhost:3001/changeNick',
+
+
+app.post('/changePassword', async (req, res) => {
+  try {
+    const { _id, oldPassword, newPassword } = req.body;
+    const e = await UserModel.findOne({ _id });
+    if (e != null) {
+      if (e.password == oldPassword) {
+        e.password = bcrypt.hash(newPassword, 10);
+      }
+      await user.save();
+    }} catch (error) {
+      throw new Error("Login or password incorrect")
+    
+}});
+
+
+
+
+/*
+ const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new UserModel({ nick, email, password: hashedPassword });
+    await user.save();
+    console.log(req.body)
+    res.status(201).send('Account created');
+  } catch (error) {
+    res.status(500).send('Error: ' + console.error(error));
+  }*/
+
+
+
+
+
+
+
 
 //Logowanie
 app.post('/login', async (req, res) => {
