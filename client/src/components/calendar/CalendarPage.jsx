@@ -113,7 +113,7 @@ const CalendarPage = () => {
   }
 
   return (
-    <div className='calendar-page-container'>
+    <div className='calendar-page-container' style={{padding: '20px', backgroundColor: 'white'}}>
       <header className="calendar-header">
         <div className="calendar-header-title">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style={{ cursor: "pointer" }} onClick={() => {

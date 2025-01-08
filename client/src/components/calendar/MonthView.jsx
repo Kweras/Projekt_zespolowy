@@ -1,5 +1,5 @@
 import React from 'react';
-import { shortMonths, polishDayOfWeek, isToday, areDatesEqual } from '../../utils/calendarUtils';
+import { shortMonths, polishDayOfWeek, isToday, areDatesEqual, formatHour, fixTextWidth } from '../../utils/calendarUtils';
 
 const MonthView = ({ currentDate, events }) => {
   const year = currentDate.getFullYear();
@@ -18,7 +18,6 @@ const MonthView = ({ currentDate, events }) => {
 
   // Generate an array of dates for the calendar
   const days = [];
-  const daysEvents = [];
 
   for (let date = new Date(startDay); date <= endDay; date.setDate(date.getDate() + 1)) {
     const obj = {
@@ -28,17 +27,12 @@ const MonthView = ({ currentDate, events }) => {
 
     events.forEach(event => {
       if (areDatesEqual(date, event.start)) {
-        obj.events.push(event);
-        console.log(event, obj.date);
-        
+        obj.events.push(event);        
       }
     });
 
     days.push(obj);
-  }
-
-  console.log(days, events);
-  
+  }  
 
   return (
     <div className="month-calendar">
@@ -78,8 +72,14 @@ const DayEvents = ({ events }) => {
 
   return (
     <>
-      {events.map(event =>
-        <div className={`month-event event-${event.color}`}>{event.name}</div>
+      {events.map(event => {
+        let isPartDay = !(event.duration > 0);
+        
+        return (<div key={event.id} className={`month-event event-${event.color}`}>
+          <p>{fixTextWidth(event.name, 20)}</p>
+          {!isPartDay && <p>{formatHour(event.start)}</p>}
+        </div>)
+      }
       )}
     </>
   )

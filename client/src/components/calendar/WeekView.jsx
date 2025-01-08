@@ -12,10 +12,7 @@ export default function WeekView({ currentDate, events }) {
   const gridColumnsWithoutScrollbar = `50px 10px 1fr 1fr 1fr 1fr 1fr 1fr 1fr ${scrollBarWidth}px`;
 
   const daysOfTheWeek = getDaysOfTheWeek(getWeekNumber(currentDate), currentDate.getFullYear());
-
-  console.log(daysOfTheWeek);
   
-
   const daysElement = daysOfTheWeek.map(day => {
     return (<div className="day-container" key={day.getTime()}>{getPolishDayOfWeek(day)} <span>{day.getDate()}</span></div>)
   });
@@ -68,7 +65,7 @@ export default function WeekView({ currentDate, events }) {
     }
   });
 
-  const allDayEventsContainer = allDayEvents.map(el => <AllDayEvent events={el} />)
+  const allDayEventsContainer = allDayEvents.map(el => <AllDayEvent key={Math.random()} events={el} />)
 
   return (
     <div className="week-view-container" >
@@ -208,7 +205,7 @@ const DayEvents = ({ events }) => {
   return (
     <>
       {events.map(event =>
-        <div className={`week-event event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
+        <div key={event.id} className={`week-event event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
       )}
     </>
   )

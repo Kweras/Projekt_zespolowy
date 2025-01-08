@@ -82,3 +82,17 @@ export const getDaysOfTheWeek = (week, year) => {
 
   return daysOfWeek;
 };
+
+export const formatHour = (date) => {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+
+  hours = hours.toString().padStart(2, '0');
+  minutes = minutes.toString().padStart(2, '0');
+
+  return `${hours}:${minutes}`;
+};
+
+export const fixTextWidth = (text, width) => {
+  return text.length > width ? text.slice(0, width) + '...' : text;
+};
