@@ -15,7 +15,7 @@ const eventSchema = new mongoose.Schema({
     default: "Blue"
   }
 });
-
+//comment
 const dateSchema = new mongoose.Schema({
   start: {
     type: Date,
