@@ -209,7 +209,7 @@ const CalendarPage = () => {
 
       <Calendar selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
 
-      {isModalShow && <CalendarForm startDate={modalStartDate} hideModal={setIsModalShow} />}
+      {isModalShow && <CalendarForm startDate={modalStartDate} hideModal={handleModalClose} />}
     </div>
   )
 }

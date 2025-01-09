@@ -1,5 +1,5 @@
 import React from 'react';
-import { shortMonths, polishDayOfWeek, isToday, areDatesEqual, formatHour, fixTextWidth, formatDateToYYYYMMDD } from '../../utils/calendarUtils';
+import { polishDayOfWeek, isToday, areDatesEqual, formatHour, fixTextWidth, formatDateToYYYYMMDD } from '../../utils/calendarUtils';
 
 const MonthView = ({ currentDate, events, handleModalOpen }) => {
   const year = currentDate.getFullYear();
