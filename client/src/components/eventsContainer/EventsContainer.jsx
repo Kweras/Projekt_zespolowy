@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './EventsContainer.css';
 import Event from '../event/Event';
-import CreateEvent from '../createEvent/CreateEvent';
+import CreateEvent from '../event/CreateEvent';
 
-const FlexContainer = () => {
+const EventsContainer = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -62,4 +62,4 @@ const FlexContainer = () => {
   );
 };
 
-export default FlexContainer;
+export default EventsContainer;

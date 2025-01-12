@@ -1,6 +1,7 @@
 import '../event/Event.css';
-import UpdateEvent from '../updateEvent/UpdateEvent';
-import DeleteEvent from '../deleteEvent/DeleteEvent';
+
+import UpdateEvent from './UpdateEvent';
+import DeleteEvent from './DeleteEvent';
 import { FaPencilAlt } from "react-icons/fa";
 import { ImBin } from "react-icons/im";
 

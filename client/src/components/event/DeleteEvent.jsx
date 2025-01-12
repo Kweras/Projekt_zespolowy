@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import './DeleteEvent.css';
+import './Event.css';
 
 function DeleteEvent({eventId, name, type, onDeleteEvent, children}) {
   const [error, setError] = useState('');
@@ -62,7 +62,7 @@ function DeleteEvent({eventId, name, type, onDeleteEvent, children}) {
         <div className="form-container">
           <form onSubmit={handleSubmitDelete}>
 
-            <h1>Czy na pewno chcesz usunąć to wydarzenie</h1>
+            <h3>Czy na pewno chcesz usunąć to wydarzenie?</h3>
             <h2>{name}</h2>
             <button type="submit">Tak</button>
             <button type="button" onClick={buttonHandleCloseModal}>Nie</button>

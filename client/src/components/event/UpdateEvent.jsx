@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import './UpdateEvent.css';
+import './Event.css';
 
 function UpdateEvent({eventId, name, desc, color, type, onUpdateEvent, children}) { 
   const [_name, setName] = useState(name);

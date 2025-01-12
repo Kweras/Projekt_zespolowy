@@ -51,6 +51,7 @@ export default function WeekView({ currentDate, events, handleModalOpen }) {
   const dayEvents = [[], [], [], [], [], [], []];
 
   events.forEach(event => {
+    event.start = new Date(event.start)
     let weekDay = event.start.getDay();
     if (weekDay === 0) weekDay = 7;
     // If there is no duration, event is full day.

@@ -1,5 +1,5 @@
 import React from 'react'
-import CreateEvent from '../createEvent/CreateEvent'
+import CreateEvent from '../event/CreateEvent'
 
 export default function CalendarForm({ startDate, hideModal }) {
   const handleModalClose = (event) => {
@@ -11,8 +11,7 @@ export default function CalendarForm({ startDate, hideModal }) {
   return (
     <div className='calendar-modal-container' onClick={handleModalClose}>
       <div className='calendar-modal'>
-        <p>start-date: {startDate}</p>
-        <CreateEvent/>
+        <CreateEvent start={startDate} type={"withDate"}/>
       </div>
     </div>
   )

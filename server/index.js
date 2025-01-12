@@ -137,14 +137,19 @@ app.get('/getEvents', async (req, res) => {
 
 app.post('/createEvent', async (req, res) => {
   const { _id, event } = req.body;
-  try {
-    const updatedUser = await UserModel.findByIdAndUpdate(_id, { $push: { events: event } }, { new: true, useFindAndModify: false });
 
-    if (!updatedUser) {
+  if (!_id || !event || !event.name || !event.desc) {
+    return res.status(400).send('Missing parameters!');
+  }
+
+  try {
+    const user = await UserModel.findByIdAndUpdate(_id, { $push: { events: event } }, { new: true, useFindAndModify: false });
+
+    if (!user) {
       return res.status(404).send('User not found');
     }
 
-    const newEvent = updatedUser.events[updatedUser.events.length - 1];
+    const newEvent = user.events[user.events.length - 1];
 
     return res.status(200).json(newEvent);
   } catch (error) {
@@ -152,6 +157,30 @@ app.post('/createEvent', async (req, res) => {
     return res.status(500).send('Error');
   }
 });
+
+app.post('/createDatedEvent', async (req, res) => {
+  const { _id, event } = req.body;
+
+  if (!_id || !event || !event.name || !event.duration || !event.start) {
+    return res.status(400).send('Missing parameters!');
+  }
+
+  try {
+    const user = await UserModel.findByIdAndUpdate(_id, { $push: { dated_events: event } }, { new: true, useFindAndModify: false });
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const newEvent = user.events[user.events.length - 1];
+
+    return res.status(201).json(newEvent);
+  } catch (error) {
+    console.error('Error occurred while creating a dated event:', error);
+    return res.status(500).send('ERROR!!!');
+  }
+});
+
 
 app.post('/updateEvent', async (req, res) => {
   const { _id, _eventId, updatedEvent, type } = req.body;
@@ -236,44 +265,6 @@ app.post('/deleteEvent', async (req, res) => {
   }
 });
 
-app.post('/copyEvent', async (req, res) => {
-  const { _id, _eventId } = req.body;
-
-  if (!_id || !_eventId) {
-    return res.status(400).send('Missing parameters!');
-  }
-
-  try {
-    const user = await UserModel.findById(_id);
-
-    if (!user) {
-      return res.status(404).send('User not found!');
-    }
-
-    const event = user.events.id(_eventId);
-
-    if (!event) {
-      return res.status(404).send('Event not found!');
-    }
-
-    //copy of an event
-    const eventCopy = {
-      name: event.name,
-      desc: event.desc,
-      color: event.color,
-    };
-
-    user.events.push(eventCopy);
-
-    await user.save();
-
-    return res.status(200).send('Event copied.');
-  } catch (error) {
-    console.error('Error occurred while coping an event:', error);
-    return res.status(500).send('ERROR!!!');
-  }
-});
-
 app.post('/moveEvent', async (req, res) => {
   const { _id, _eventId, date, duration } = req.body;
 
@@ -298,12 +289,8 @@ app.post('/moveEvent', async (req, res) => {
       name: eventToMove.name,
       desc: eventToMove.desc,
       color: eventToMove.color,
-      dates: [
-        {
-          start: new Date(date),
-          duration: duration,
-        },
-      ],
+      start: new Date(start),
+      duration: duration,
     };
 
     user.events.splice(eventIndex, 1);
@@ -318,92 +305,10 @@ app.post('/moveEvent', async (req, res) => {
   }
 });
 
-app.post('/addDate', async (req, res) => {
-  const { _id, _eventId, start, duration } = req.body;
-
-  if (!_id || !_eventId || !start || !duration) {
-    return res.status(400).send('Missing parameters!');
-  }
-
-  try {
-    const parsedStart = new Date(start);
-    const parsedDuration = Number(duration);
-
-    if (parsedDuration <= 0) {
-      return res.status(400).send('Invalid duration value!');
-    }
-
-    const newDateEntry = {
-      start: parsedStart,
-      duration: parsedDuration,
-    };
-
-    const updatedUser = await UserModel.findOneAndUpdate(
-      {
-        _id: _id,
-        'dated_events._id': _eventId,
-      },
-      {
-        $addToSet: { 'dated_events.$.dates': newDateEntry },
-      },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).send('User or event not found!');
-    }
-
-    res.status(200).send('Date added successfully.');
-  } catch (error) {
-    console.error('Error occurred while adding a date to a dated_event:', error);
-    res.status(500).send('ERROR!!!');
-  }
-});
-
-app.post('/removeDate', async (req, res) => {
-  const { _id, _eventId, _dateId } = req.body;
-
-  if (!_id || !_eventId || !_dateId) {
-    return res.status(400).send('Missing parameters!');
-  }
-
-  try {
-    const user = await UserModel.findById(_id);
-    if (!user) {
-      return res.status(404).send('User not found!');
-    }
-
-    const datedEvent = user.dated_events.id(_eventId);
-    if (!datedEvent) {
-      return res.status(404).send('Event not found!');
-    }
-
-    const dateIndex = datedEvent.dates.findIndex((date) => date._id.toString() === _dateId);
-    if (dateIndex !== -1) {
-      datedEvent.dates.splice(dateIndex, 1);
-      await user.save();
-
-      if (datedEvent.dates.length === 0) {
-        const eventIndex = user.dated_events.findIndex((event) => event._id.toString() === _eventId);
-        user.dated_events.splice(eventIndex, 1);
-        await user.save();
-        return res.status(200).send('Event removed (no dates left).');
-      }
-
-      return res.status(200).send('Date removed');
-    } else {
-      return res.status(404).send('Date not found!');
-    }
-  } catch (error) {
-    console.error('Error occurred while removing a date from dated_event:', error);
-    res.status(500).send('ERROR!!!');
-  }
-});
-
 app.get('/getEventsByDate', async (req, res) => {
   const { _id, from, to } = req.query;
 
-  console.log(req.query);
+  //console.log(req.query);
 
   if (!_id || !from || !to) {
     return res.status(400).send('Missing parameters!');
@@ -411,6 +316,7 @@ app.get('/getEventsByDate', async (req, res) => {
 
   const fromDate = new Date(from);
   const toDate = new Date(to);
+  toDate.setHours(23, 59, 59, 999);
 
   if (fromDate > toDate) {
     return res.status(400).send('Invalid dates');
@@ -422,23 +328,11 @@ app.get('/getEventsByDate', async (req, res) => {
       return res.status(404).send('User not found!');
     }
 
-    const eventsInRange = user.dated_events
-      .map((event) => {
-        const filteredDates = event.dates.filter((eventDate) => {
-          return eventDate.start >= fromDate && eventDate.start <= toDate;
-        });
+    const eventsInRange = user.dated_events.filter(event => {
+      const eventStartDate = new Date(event.start);
+      return eventStartDate >= fromDate && eventStartDate <= toDate;
+    });
 
-        if (filteredDates.length > 0) {
-          return {
-            _id: event._id,
-            name: event.name,
-            desc: event.desc,
-            color: event.color,
-            dates: filteredDates,
-          };
-        }
-      })
-      .filter((event) => event !== undefined);
 
     return res.status(200).json(eventsInRange);
   } catch (error) {
@@ -446,3 +340,4 @@ app.get('/getEventsByDate', async (req, res) => {
     return res.status(500).send('ERROR!!!');
   }
 });
+

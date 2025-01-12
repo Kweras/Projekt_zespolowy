@@ -4,62 +4,62 @@ import "./Calendar.css"
 import { formatDateToYYYYMMDD, getDaysOfTheWeek, getTitle, getWeekNumber } from "../../utils/calendarUtils";
 import CalendarForm from "./CalendarForm";
 
-const TEMP_EVENTS = [
-  {
-    id: 1,
-    name: 'Test Event',
-    desc: "mam dość.",
-    start: new Date('2025-01-08 10:00'),
-    duration: '120',
-    color: 'blue'
-  }, 
-  {
-    id: 2,
-    name: 'Super Event',
-    desc: "mam dość.",
-    start: new Date('2025-01-09 10:00'),
-    duration: '75',
-    color: 'pink'
-  },
-  {
-    id: 3,
-    name: 'Poprawa systemów operacyjnych',
-    desc: "mam dość.",
-    start: new Date('2025-01-09 14:00'),
-    duration: '75',
-    color: 'pink'
-  },
-  {
-    id: 4,
-    name: 'Wolne',
-    desc: "mam dość.",
-    start: new Date('2025-01-06'),
-    color: 'purple'
-  },
+// const TEMP_EVENTS = [
+//   {
+//     id: 1,
+//     name: 'Test Event',
+//     desc: "mam dość.",
+//     start: new Date('2025-01-08 10:00'),
+//     duration: '120',
+//     color: 'blue'
+//   }, 
+//   {
+//     id: 2,
+//     name: 'Super Event',
+//     desc: "mam dość.",
+//     start: new Date('2025-01-09 10:00'),
+//     duration: '75',
+//     color: 'pink'
+//   },
+//   {
+//     id: 3,
+//     name: 'Poprawa systemów operacyjnych',
+//     desc: "mam dość.",
+//     start: new Date('2025-01-09 14:00'),
+//     duration: '75',
+//     color: 'pink'
+//   },
+//   {
+//     id: 4,
+//     name: 'Wolne',
+//     desc: "mam dość.",
+//     start: new Date('2025-01-06'),
+//     color: 'purple'
+//   },
 
-  {
-    id: 5,
-    name: 'Niedziela',
-    desc: "mam dość.",
-    start: new Date('2025-01-12'),
-    color: 'pink'
-  },
-    {
-    id: 6,
-    name: 'To jest niedziela',
-    desc: "mam dość.",
-    start: new Date('2025-01-12'),
-    color: 'yellow'
-  },
-  {
-    id: 7,
-    name: 'Projekt zespołowy',
-    desc: 'okok',
-    start: new Date('2025-01-08 14:15'),
-    duration: 120, 
-    color: 'black'
-  }
-]
+//   {
+//     id: 5,
+//     name: 'Niedziela',
+//     desc: "mam dość.",
+//     start: new Date('2025-01-12'),
+//     color: 'pink'
+//   },
+//     {
+//     id: 6,
+//     name: 'To jest niedziela',
+//     desc: "mam dość.",
+//     start: new Date('2025-01-12'),
+//     color: 'yellow'
+//   },
+//   {
+//     id: 7,
+//     name: 'Projekt zespołowy',
+//     desc: 'okok',
+//     start: new Date('2025-01-08 14:15'),
+//     duration: 120, 
+//     color: 'black'
+//   }
+// ]
 
 const CalendarPage = () => {
   const [selectedView, setSelectedView] = useState("week");
@@ -74,14 +74,14 @@ const CalendarPage = () => {
       const options = JSON.parse(localStorage.getItem('calendar-options'));
       let view = "week";
     
-    if (options && options.view) {
-      setSelectedView(options.view)
-      view = options.view
-    }
+      if (options && options.view) {
+        setSelectedView(options.view)
+        view = options.view
+      }
 
-    if (options && options.date) {
-      setCurrentDate(new Date(options.date))
-    }
+      if (options && options.date) {
+        setCurrentDate(new Date(options.date))
+      }
       
       let userId = localStorage.getItem('userID')
       
@@ -112,14 +112,15 @@ const CalendarPage = () => {
       console.log(startDay, endDay);
 
       try {
-        const events = await fetch(`http://localhost:3001/getEventsByDate?_id=${userId}&from=${formatDateToYYYYMMDD(startDay)}&to=${formatDateToYYYYMMDD(endDay)}`, )
-        console.log(events);
+        const res = await fetch(`http://localhost:3001/getEventsByDate?_id=${userId}&from=${formatDateToYYYYMMDD(startDay)}&to=${formatDateToYYYYMMDD(endDay)}`, )
+        const eventsJson = await res.json();
+        setEvents(eventsJson);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     
     // TODO: Send request to the server
-    setEvents(TEMP_EVENTS)
+    //setEvents(TEMP_EVENTS)
     }
 
     asyncFn()
@@ -136,6 +137,7 @@ const CalendarPage = () => {
   }
 
   const updateLocalStorage = (view, date) => {
+    console.log(date)
     localStorage.setItem('calendar-options', JSON.stringify({
       view, date
     }))
@@ -210,6 +212,9 @@ const CalendarPage = () => {
       <Calendar selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
 
       {isModalShow && <CalendarForm startDate={modalStartDate} hideModal={handleModalClose} />}
+
+      
+      
     </div>
   )
 }
