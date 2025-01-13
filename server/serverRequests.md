@@ -94,6 +94,21 @@ Whenever
   }
 }
 ```
+## POST for `/createDatedEvent`
+```json
+{
+  
+  "_id": "{user_id}",
+  "event": {
+    "name": "New Event",
+    "desc": "Description for the new event",
+    "color": "Blue",
+    "duration": 10,
+    "start": "2023-10-01T00:00:00Z"
+  }
+}
+```
+
 
 ## POST for `/updateEvent`
 ```json
@@ -118,15 +133,6 @@ Whenever
 }
 ```
 
-## POST for `/copyEvent` 
-```json
-{
-  "_id": "{user_id}",
-  "_eventId": "{event_id}"
-  //only for regular events
-}
-```
-
 ## POST for `/moveEvent`
 ```json
 {
@@ -137,22 +143,4 @@ Whenever
 }
 ```
 
-## POST for `/addDate`
-```json
-{
-  "_id": "{user_id}",
-  "_eventId": "{dated_event_id}",
-  "start": "2023-10-01T00:00:00Z",
-  "duration": 30
-}
-```
-
-## POST for `/removeDate`
-```json
-{
-  "_id": "{user_id}",
-  "_eventId": "{dated_event_id}",
-  "_dateId": "{date_id}"
-}
-```
 
