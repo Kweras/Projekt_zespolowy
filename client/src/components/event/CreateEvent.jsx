@@ -1,12 +1,14 @@
 import { useState } from "react";
 import './Event.css';
+import ColorPicker from "./ColorPicker";
+import { EVENTS_COLORS } from "../../utils/calendarUtils";
 
 function CreateEvent({ onAddEvent, type, start }) {
 
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [duration, setDuration] = useState(1);
-  const [color, setColor] = useState("White");
+  const [color, setColor] = useState(EVENTS_COLORS[0].nameEnglish);
   const [error, setError] = useState('');
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -77,45 +79,7 @@ function CreateEvent({ onAddEvent, type, start }) {
             </label>
           </div>
           <div className="form-group">
-            <label>Wybór koloru:</label>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  value="White"
-                  checked={color === "White"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                White
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Red"
-                  checked={color === "Red"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Red
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Green"
-                  checked={color === "Green"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Green
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Blue"
-                  checked={color === "Blue"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Blue
-              </label>
-            </div>
+            <ColorPicker setColor={setColor} />
           </div>
           <button type="submit">Dodaj wydarzenie</button>
         </form>
@@ -242,45 +206,7 @@ function CreateEvent({ onAddEvent, type, start }) {
             </label>
           </div>
           <div className="form-group">
-            <label>Wybór koloru:</label>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  value="White"
-                  checked={color === "White"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                White
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Red"
-                  checked={color === "Red"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Red
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Green"
-                  checked={color === "Green"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Green
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Blue"
-                  checked={color === "Blue"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Blue
-              </label>
-            </div>
+            <ColorPicker setColor={setColor} />
           </div>
           <button type="submit">Dodaj wydarzenie</button>
         </form>

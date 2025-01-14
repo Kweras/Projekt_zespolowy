@@ -1,4 +1,6 @@
 .event {
+  --backgroundColor: white;
+  --color: black;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -6,6 +8,8 @@
   width: 300px;
   margin: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--backgroundColor);
+  color: var(--color);
 }
 
 .icon-container {
@@ -30,22 +34,7 @@
   color: #555;
 }
 
-.red-event {
-  background-color: #fd7e7e;
-}
-.green-event {
-  background-color: #82f78c;
-}
-.blue-event {
-  background-color: #63daf8;
-}
-.white-event{
-  background-color: #ffffff;
-}
-
-
 /* for modal window */
-
 .modal {
   position: absolute;
   top: 50%;
@@ -96,7 +85,7 @@
   margin-bottom: 5px;
 }
 
-.form-group input[type="text"] {
+.form-group input[type='text'] {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;

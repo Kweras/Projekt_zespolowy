@@ -1,0 +1,29 @@
+.event-red {
+  --backgroundColor: #d46a6a !important;
+  --color: #ffffff !important;
+}
+
+.event-blue {
+  --backgroundColor: #6a8fd4 !important;
+  --color: #ffffff !important;
+}
+
+.event-green {
+  --backgroundColor: #6ad4a0 !important;
+  --color: #ffffff !important;
+}
+
+.event-yellow {
+  --backgroundColor: #d4c76a !important;
+  --color: #000000 !important;
+}
+
+.event-purple {
+  --backgroundColor: #a06ad4 !important;
+  --color: #ffffff !important;
+}
+
+.event-orange {
+  --backgroundColor: #d4a06a !important;
+  --color: #000000 !important;
+}

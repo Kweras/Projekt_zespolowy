@@ -1,3 +1,12 @@
+export const EVENTS_COLORS = [
+  { namePolish: 'Czerwony', nameEnglish: 'red', hex: '#D46A6A' }, // Stonowany czerwony
+  { namePolish: 'Niebieski', nameEnglish: 'blue', hex: '#6A8FD4' }, // Stonowany niebieski
+  { namePolish: 'Zielony', nameEnglish: 'green', hex: '#6AD4A0' }, // Stonowany zielony
+  { namePolish: 'Żółty', nameEnglish: 'yellow', hex: '#D4C76A' }, // Stonowany żółty
+  { namePolish: 'Fioletowy', nameEnglish: 'purple', hex: '#A06AD4' }, // Stonowany fioletowy
+  { namePolish: 'Pomarańczowy', nameEnglish: 'orange', hex: '#D4A06A' }, // Stonowany pomarańczowy
+];
+
 export const getTitle = (currentDate, view, short = false) => {
   const options = { month: 'long', year: 'numeric' };
 

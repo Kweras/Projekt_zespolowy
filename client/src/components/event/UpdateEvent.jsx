@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import './Event.css';
+import ColorPicker from "./ColorPicker";
 
 function UpdateEvent({eventId, name, desc, color, type, onUpdateEvent, children}) { 
   const [_name, setName] = useState(name);
@@ -95,46 +96,8 @@ function UpdateEvent({eventId, name, desc, color, type, onUpdateEvent, children}
               />
             </label>
           </div>
-          <div>
-            <label>Wybór koloru:</label>
-            <div className="radio-group">
-            <label>
-                <input
-                  type="radio"
-                  value="White"
-                  checked={_color === "White"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                White
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Red"
-                  checked={_color === "Red"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Red
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Green"
-                  checked={_color === "Green"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Green
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Blue"
-                  checked={_color === "Blue"}
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                Blue
-              </label>
-            </div>
+            <div>
+              <ColorPicker setColor={setColor} value={_color} />
           </div>
           <button type="submit">Edytuj wydarzenie</button>
         </form>

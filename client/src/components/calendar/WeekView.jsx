@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
 import { formatDateToYYYYMMDD, getDaysOfTheWeek, getPolishDayOfWeek, getWeekNumber } from '../../utils/calendarUtils';
+import "../common/eventStyle.css"
 
 
 export default function WeekView({ currentDate, events, handleModalOpen }) {
@@ -23,8 +24,13 @@ export default function WeekView({ currentDate, events, handleModalOpen }) {
 
   useEffect(() => {
     const now = new Date();
+    const day = now.getDay();
+    const weekDay = day === 0 ? 7 : day;
+      
+    const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const isTodayInRange = daysOfTheWeek.filter(el => el.getTime() === todayAtMidnight.getTime());
 
-    if (hoursContainerRef) {
+    if (hoursContainerRef && isTodayInRange.length > 0) {
       hoursContainerRef.current.scrollTo({
         top: (now.getHours() - 1) * 50,
         behavior: 'smooth',
@@ -32,12 +38,6 @@ export default function WeekView({ currentDate, events, handleModalOpen }) {
     }
 
     if (dayColumnRef) {
-      const day = now.getDay();
-      const weekDay = day === 0 ? 7 : day;
-      
-      const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const isTodayInRange = daysOfTheWeek.filter(el => el.getTime() === todayAtMidnight.getTime());
-      
       setHourIndicator(() => ({
         top: (now.getHours()) * 50 + (now.getMinutes() * (50 / 60)),
         width: dayColumnRef.current.offsetWidth,
@@ -210,7 +210,7 @@ const DayEvents = ({ events }) => {
   return (
     <>
       {events.map(event =>
-        <div key={event._id} className={`week-event event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
+        <div key={event._id} className={`week-event ${parseInt(event.height.slice(0, -2), 10) <= 40 ? 'thin' : ''} event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
       )}
     </>
   )
