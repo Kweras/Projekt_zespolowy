@@ -210,7 +210,7 @@ const DayEvents = ({ events }) => {
   return (
     <>
       {events.map(event =>
-        <div key={event.id} className={`week-event event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
+        <div key={event._id} className={`week-event event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
       )}
     </>
   )

@@ -4,12 +4,13 @@ import { polishDayOfWeek, isToday, areDatesEqual, formatHour, fixTextWidth, form
 const MonthView = ({ currentDate, events, handleModalOpen }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-
+  
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
 
   const startDay = new Date(firstDayOfMonth);
   const dayOfWeek = firstDayOfMonth.getDay();
+
   // Set to previous Monday if not Monday
   startDay.setDate(firstDayOfMonth.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); 
 
@@ -25,8 +26,8 @@ const MonthView = ({ currentDate, events, handleModalOpen }) => {
       events: []
     }
 
-    events.forEach(event => {
-      if (areDatesEqual(date, event.start)) {
+    events.forEach(event => {         
+      if (areDatesEqual(date, new Date(event.start))) {
         obj.events.push(event);        
       }
     });
@@ -41,7 +42,6 @@ const MonthView = ({ currentDate, events, handleModalOpen }) => {
       return;
     }
     const date = event.target.dataset.date;    
-    console.log(date);
     handleModalOpen(date);
   }
 
@@ -88,9 +88,9 @@ const DayEvents = ({ events }) => {
       {events.map(event => {
         let isPartDay = !(event.duration > 0);
         
-        return (<div key={event.id} className={`month-event event-${event.color}`}>
+        return (<div key={event._id} className={`month-event event-${event.color}`}>
           <p>{fixTextWidth(event.name, 20)}</p>
-          {!isPartDay && <p>{formatHour(event.start)}</p>}
+          {!isPartDay && <p>{formatHour(new Date(event.start))}</p>}
         </div>)
       }
       )}
