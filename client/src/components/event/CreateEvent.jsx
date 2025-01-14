@@ -3,13 +3,13 @@ import './Event.css';
 import ColorPicker from "../ui/ColorPicker/ColorPicker";
 import { EVENTS_COLORS, formatHour, isEndDateBeforeStartDate, getDurationInMinutes } from "../../utils/calendarUtils";
 
-function CreateEvent({ onAddEvent, type, start }) {
+function CreateEvent({ onAddEvent, time, type, start }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [color, setColor] = useState(EVENTS_COLORS[0].nameEnglish);
   const [error, setError] = useState('');
-  const [startTime, setStartTime] = useState(formatHour(new Date()))
-  const [endTime, setEndTime] = useState(formatHour(new Date()))
+  const [startTime, setStartTime] = useState(time ? time :formatHour(new Date()))
+  const [endTime, setEndTime] = useState(time ? time :formatHour(new Date()))
 
   const handleSubmit = async (e) => {
     e.preventDefault();

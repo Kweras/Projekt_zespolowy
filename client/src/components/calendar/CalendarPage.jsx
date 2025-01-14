@@ -12,6 +12,7 @@ const CalendarPage = () => {
 
   const [isModalShow, setIsModalShow] = useState(false);
   const [modalStartDate, setModalStartDate] = useState(formatDateToYYYYMMDD(new Date()));
+  const [modalStartTime, setModalStartTime] = useState('');
 
   const getEvents = async (selectedDate = new Date(), view = "week") => {
     let userId = localStorage.getItem('userID')
@@ -76,9 +77,13 @@ const CalendarPage = () => {
     asyncFn(date, view)
   }, [])
 
-  const handleModalOpen = (date) => {
+  const handleModalOpen = (date, time = '') => {
+
+    console.log(time);
+    
     setIsModalShow(true);
     setModalStartDate(date);
+    setModalStartTime(time);
   }
 
   const handleModalClose = () => {
@@ -165,10 +170,7 @@ const CalendarPage = () => {
 
       <Calendar isLoading={isLoading} selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
 
-      {isModalShow && <CalendarForm startDate={modalStartDate} hideModal={handleModalClose} />}
-
-      
-      
+      {isModalShow && <CalendarForm startDate={modalStartDate} time={modalStartTime} hideModal={handleModalClose} />}      
     </div>
   )
 }

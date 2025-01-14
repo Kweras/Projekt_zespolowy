@@ -1,7 +1,7 @@
 import React from 'react'
 import CreateEvent from '../event/CreateEvent'
 
-export default function CalendarForm({ startDate, hideModal }) {
+export default function CalendarForm({ startDate, time, hideModal }) {
   const handleModalClose = (event) => {
     if (event.nativeEvent.target.classList.contains('calendar-modal-container')) {
       hideModal()
@@ -11,7 +11,7 @@ export default function CalendarForm({ startDate, hideModal }) {
   return (
     <div className='calendar-modal-container' onClick={handleModalClose}>
       <div className='calendar-modal'>
-        <CreateEvent start={startDate} type={"withDate"}/>
+        <CreateEvent start={startDate} time={time} type={"withDate"}/>
       </div>
     </div>
   )

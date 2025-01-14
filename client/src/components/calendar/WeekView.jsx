@@ -18,6 +18,10 @@ export default function WeekView({ currentDate, events, handleModalOpen }) {
     handleModalOpen(event.nativeEvent.target.dataset.date);
   }
 
+  const handleHourClick = (event) => {
+    handleModalOpen(event.nativeEvent.target.parentElement.dataset.date, event.nativeEvent.target.dataset.hour);
+  }
+
   const daysElement = daysOfTheWeek.map(day => {
     return (<div className="day-container" onClick={handleDayClickHeader} data-date={formatDateToYYYYMMDD(day)} key={day.getTime()}>{getPolishDayOfWeek(day)} <span style={{pointerEvents: 'none'}}>{day.getDate()}</span></div>)
   });
@@ -113,47 +117,41 @@ export default function WeekView({ currentDate, events, handleModalOpen }) {
           <div><span>21:00</span></div>
           <div><span>22:00</span></div>
           <div><span>23:00</span></div>
+          <div><span>24:00</span></div>
         </div>
         <div className="dashes-container">
           <SpamOfDivs />
         </div>
 
 
-        <div className="day-events" data-day="monday" ref={dayColumnRef}>
+        <div className="day-events" data-day="monday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[0])} ref={dayColumnRef}>
           {<HourIndicator {...hourIndicator} />}
           <DayEvents events={dayEvents[0]} />
-          <SpamOfDivs />
-          <div></div>
+          <SpamOfDivs onClick={handleHourClick} />
         </div>
-        <div className="day-events" data-day="tuesday">
+        <div className="day-events" data-day="tuesday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[1])}>
           <DayEvents events={dayEvents[1]} />
-          <SpamOfDivs />
-          <div></div>
+          <SpamOfDivs onClick={handleHourClick}/>
         </div>
-        <div className="day-events" data-day="wednesday">
+        <div className="day-events" data-day="wednesday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[2])}>
           <DayEvents events={dayEvents[2]} />
-          <SpamOfDivs />
-          <div></div>
+          <SpamOfDivs onClick={handleHourClick}/>
         </div>
-        <div className="day-events" data-day="thursday">
+        <div className="day-events" data-day="thursday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[3])}>
           <DayEvents events={dayEvents[3]} />
-          <SpamOfDivs />
-          <div></div>
+          <SpamOfDivs onClick={handleHourClick}/>
         </div>
-        <div className="day-events" data-day="friday">
+        <div className="day-events" data-day="friday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[4])}>
           <DayEvents events={dayEvents[4]} />
-          <SpamOfDivs />
-          <div></div>
+          <SpamOfDivs onClick={handleHourClick}/>
         </div>
-        <div className="day-events" data-day="saturday">
+        <div className="day-events" data-day="saturday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[5])}>
           <DayEvents events={dayEvents[5]} />
-          <SpamOfDivs />
-          <div></div>
+          <SpamOfDivs onClick={handleHourClick}/>
         </div>
-        <div className="day-events" data-day="sunday">
+        <div className="day-events" data-day="sunday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[6])}>
           <DayEvents events={dayEvents[6]} />
-          <SpamOfDivs />
-          <div></div>
+          <SpamOfDivs onClick={handleHourClick}/>
         </div>
       </div>
     </div>
@@ -166,35 +164,19 @@ const HourIndicator = ({top, left, width, display}) => {
   )
 }
 
-const SpamOfDivs = () => {
-  return (
-    <>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </>
-  )
-}
+const SpamOfDivs = ({onClick}) => {
+  const generateDivs = () => {
+    const divs = [];
+    for (let i = 0; i < 24; i++) {
+      const hour = i.toString().padStart(2, '0') + ':00';
+      divs.push(<div key={hour} data-hour={hour} onClick={onClick}></div>);
+    }
+    return divs;
+  };
+
+  return <>{generateDivs()}</>;
+};
+
 
 const AllDayEvent = ({events}) => {
   return (
