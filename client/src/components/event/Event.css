@@ -85,11 +85,26 @@
   margin-bottom: 5px;
 }
 
-.form-group input[type='text'] {
+.form-group input[type='text'],
+.time-container input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.time-container {
+  display: flex;
+  justify-content: center;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.time-container span {
+  height: 2px;
+  width: 30px;
+  background-color: gray;
+  border-radius: 2px;
 }
 
 .radio-group label {

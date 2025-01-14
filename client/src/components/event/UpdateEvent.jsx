@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import './Event.css';
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "../ui/ColorPicker/ColorPicker";
 
 function UpdateEvent({eventId, name, desc, color, type, onUpdateEvent, children}) { 
   const [_name, setName] = useState(name);

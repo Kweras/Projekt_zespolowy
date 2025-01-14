@@ -1,0 +1,50 @@
+.color-picker-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 300px;
+  position: relative;
+  background-color: white;
+  cursor: pointer;
+}
+
+.color-picker-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.color-picker-select {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 10;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.color-picker-select-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.color-picker-select-item:hover {
+  background-color: #f0f0f0 !important;
+}

@@ -112,3 +112,29 @@ export const formatDateToYYYYMMDD = (date) => {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+export const getDurationInMinutes = (startTime, endTime) => {
+  const [startHours, startMinutes] = startTime.split(':').map(Number);
+  const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+  const startTotalMinutes = startHours * 60 + startMinutes;
+  const endTotalMinutes = endHours * 60 + endMinutes;
+
+  let durationMinutes = endTotalMinutes - startTotalMinutes;
+
+  if (durationMinutes < 0) {
+    durationMinutes += 24 * 60; // Add 24 hours in minutes
+  }
+
+  return durationMinutes;
+};
+
+export const isEndDateBeforeStartDate = (startTime, endTime) => {
+  const [startHours, startMinutes] = startTime.split(':').map(Number);
+  const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+  const startTotalMinutes = startHours * 60 + startMinutes;
+  const endTotalMinutes = endHours * 60 + endMinutes;
+
+  return endTotalMinutes < startTotalMinutes;
+};
