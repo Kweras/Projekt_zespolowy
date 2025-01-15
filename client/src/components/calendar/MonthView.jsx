@@ -1,7 +1,7 @@
 import React from 'react';
 import { polishDayOfWeek, isToday, areDatesEqual, formatHour, fixTextWidth, formatDateToYYYYMMDD } from '../../utils/calendarUtils';
 
-const MonthView = ({ currentDate, events, handleModalOpen }) => {
+const MonthView = ({ currentDate,setPreviewEvent, events, handleModalOpen }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   
@@ -57,7 +57,7 @@ const MonthView = ({ currentDate, events, handleModalOpen }) => {
           className={`month-calendar-day ${[0, 6].includes(date.getDay()) && 'gray'} ${date.getDay() === 0 && 'last'} ${date.getMonth() === month ? 'month-calendar-current-month' : 'month-calendar-other-month'}`}
         >
           <span data-date={formatDateToYYYYMMDD(date)} className={isToday(date) ? 'today month-calendar-date' : 'month-calendar-date'}>{date.getDate()}</span>
-          <DayEvents events={events}/>
+          <DayEvents events={events} setPreviewEvent={setPreviewEvent} />
         </div>
       ))}
     </div>
@@ -80,7 +80,7 @@ const CalendarHeader = () => {
   </>
 }
 
-const DayEvents = ({ events }) => {
+const DayEvents = ({ events, setPreviewEvent }) => {
   if (events.length === 0) return;
 
   return (
@@ -88,7 +88,7 @@ const DayEvents = ({ events }) => {
       {events.map(event => {
         let isPartDay = !(event.duration > 0);
         
-        return (<div key={event._id} className={`month-event event-${event.color}`}>
+        return (<div key={event._id} className={`month-event event-${event.color}`} onClick={() => {setPreviewEvent(event)}}>
           <p>{fixTextWidth(event.name, 20)}</p>
           {!isPartDay && <p>{formatHour(new Date(event.start))}</p>}
         </div>)

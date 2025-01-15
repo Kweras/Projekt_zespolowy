@@ -4,7 +4,7 @@ import { formatDateToYYYYMMDD, getDaysOfTheWeek, getPolishDayOfWeek, getWeekNumb
 import "../common/eventStyle.css"
 
 
-export default function WeekView({ currentDate, events, handleModalOpen }) {
+export default function WeekView({ currentDate, setPreviewEvent, events, handleModalOpen }) {
   const hoursContainerRef = useRef(null);
   const dayColumnRef = useRef(null);
   const [hourIndicator, setHourIndicator] = useState({}); 
@@ -126,31 +126,31 @@ export default function WeekView({ currentDate, events, handleModalOpen }) {
 
         <div className="day-events" data-day="monday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[0])} ref={dayColumnRef}>
           {<HourIndicator {...hourIndicator} />}
-          <DayEvents events={dayEvents[0]} />
+          <DayEvents events={dayEvents[0]} setPreviewEvent={setPreviewEvent} />
           <SpamOfDivs onClick={handleHourClick} />
         </div>
         <div className="day-events" data-day="tuesday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[1])}>
-          <DayEvents events={dayEvents[1]} />
+          <DayEvents events={dayEvents[1]} setPreviewEvent={setPreviewEvent} />
           <SpamOfDivs onClick={handleHourClick}/>
         </div>
         <div className="day-events" data-day="wednesday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[2])}>
-          <DayEvents events={dayEvents[2]} />
+          <DayEvents events={dayEvents[2]} setPreviewEvent={setPreviewEvent} />
           <SpamOfDivs onClick={handleHourClick}/>
         </div>
         <div className="day-events" data-day="thursday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[3])}>
-          <DayEvents events={dayEvents[3]} />
+          <DayEvents events={dayEvents[3]} setPreviewEvent={setPreviewEvent} />
           <SpamOfDivs onClick={handleHourClick}/>
         </div>
         <div className="day-events" data-day="friday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[4])}>
-          <DayEvents events={dayEvents[4]} />
+          <DayEvents events={dayEvents[4]} setPreviewEvent={setPreviewEvent} />
           <SpamOfDivs onClick={handleHourClick}/>
         </div>
         <div className="day-events" data-day="saturday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[5])}>
-          <DayEvents events={dayEvents[5]} />
+          <DayEvents events={dayEvents[5]} setPreviewEvent={setPreviewEvent} />
           <SpamOfDivs onClick={handleHourClick}/>
         </div>
         <div className="day-events" data-day="sunday" data-date={formatDateToYYYYMMDD(daysOfTheWeek[6])}>
-          <DayEvents events={dayEvents[6]} />
+          <DayEvents events={dayEvents[6]} setPreviewEvent={setPreviewEvent} />
           <SpamOfDivs onClick={handleHourClick}/>
         </div>
       </div>
@@ -186,13 +186,13 @@ const AllDayEvent = ({events}) => {
   )
 }
 
-const DayEvents = ({ events }) => {
+const DayEvents = ({ events, setPreviewEvent }) => {
   if (events.length === 0) return;
 
   return (
     <>
       {events.map(event =>
-        <div key={event._id} className={`week-event ${parseInt(event.height.slice(0, -2), 10) <= 40 ? 'thin' : ''} event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
+        <div key={event._id} onClick={()=>{setPreviewEvent(event)}} className={`week-event ${parseInt(event.height.slice(0, -2), 10) <= 40 ? 'thin' : ''} event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
       )}
     </>
   )

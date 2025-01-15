@@ -1,10 +1,10 @@
 export const EVENTS_COLORS = [
-  { namePolish: 'Czerwony', nameEnglish: 'red', hex: '#D46A6A' }, // Stonowany czerwony
-  { namePolish: 'Niebieski', nameEnglish: 'blue', hex: '#6A8FD4' }, // Stonowany niebieski
-  { namePolish: 'Zielony', nameEnglish: 'green', hex: '#6AD4A0' }, // Stonowany zielony
-  { namePolish: 'Żółty', nameEnglish: 'yellow', hex: '#D4C76A' }, // Stonowany żółty
-  { namePolish: 'Fioletowy', nameEnglish: 'purple', hex: '#A06AD4' }, // Stonowany fioletowy
-  { namePolish: 'Pomarańczowy', nameEnglish: 'orange', hex: '#D4A06A' }, // Stonowany pomarańczowy
+  { namePolish: 'Czerwony', nameEnglish: 'red', hex: '#D46A6A' },
+  { namePolish: 'Niebieski', nameEnglish: 'blue', hex: '#6A8FD4' },
+  { namePolish: 'Zielony', nameEnglish: 'green', hex: '#6AD4A0' },
+  { namePolish: 'Żółty', nameEnglish: 'yellow', hex: '#D4C76A' },
+  { namePolish: 'Fioletowy', nameEnglish: 'purple', hex: '#A06AD4' },
+  { namePolish: 'Pomarańczowy', nameEnglish: 'orange', hex: '#D4A06A' },
 ];
 
 export const getTitle = (currentDate, view, short = false) => {
@@ -137,4 +137,14 @@ export const isEndDateBeforeStartDate = (startTime, endTime) => {
   const endTotalMinutes = endHours * 60 + endMinutes;
 
   return endTotalMinutes < startTotalMinutes;
+};
+
+export const formatDateToPolish = (date) => {
+  const months = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}r.`;
 };

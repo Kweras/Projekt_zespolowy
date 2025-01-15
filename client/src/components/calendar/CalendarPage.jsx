@@ -3,6 +3,7 @@ import Calendar from "./Calendar";
 import "./Calendar.css"
 import { areDatesEqual, formatDateToYYYYMMDD, getDaysOfTheWeek, getTitle, getWeekNumber } from "../../utils/calendarUtils";
 import CalendarForm from "./CalendarForm";
+import EventPreview from "./EventPreview";
 
 const CalendarPage = () => {
   const [selectedView, setSelectedView] = useState("week");
@@ -13,6 +14,9 @@ const CalendarPage = () => {
   const [isModalShow, setIsModalShow] = useState(false);
   const [modalStartDate, setModalStartDate] = useState(formatDateToYYYYMMDD(new Date()));
   const [modalStartTime, setModalStartTime] = useState('');
+
+  const [isPreviewShow, setIsPreviewShow] = useState(false);
+  const [previewEvent, setPreviewEvent] = useState({});
 
   const getEvents = async (selectedDate = new Date(), view = "week") => {
     let userId = localStorage.getItem('userID')
@@ -128,6 +132,11 @@ const CalendarPage = () => {
     updateLocalStorage(view, currentDate);
   }
 
+  const handleEventPreview = (event) => {
+    setPreviewEvent(event);
+    setIsPreviewShow(true);
+  }
+
   return (
     <div className='calendar-page-container' style={{padding: '20px', backgroundColor: 'white'}}>
       <header className="calendar-header">
@@ -168,9 +177,11 @@ const CalendarPage = () => {
       </header>
 
 
-      <Calendar isLoading={isLoading} selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
+      <Calendar isLoading={isLoading} setPreviewEvent={handleEventPreview} selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
 
-      {isModalShow && <CalendarForm startDate={modalStartDate} time={modalStartTime} hideModal={handleModalClose} />}      
+      {isModalShow && <CalendarForm startDate={modalStartDate} time={modalStartTime} hideModal={handleModalClose} />} 
+      {isPreviewShow && <EventPreview hideModal={setIsPreviewShow} event={previewEvent} />}
+      
     </div>
   )
 }

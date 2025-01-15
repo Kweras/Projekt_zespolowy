@@ -369,3 +369,37 @@
     background-position: 0% 50%, 50% 50%, 100% 100%;
   }
 }
+
+.event-preview .color-dot {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.event-preview {
+  width: 400px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-preview header {
+  display: flex;
+  gap: 5px;
+  align-items: flex-start;
+}
+
+.event-preview header aside {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-preview header h3 {
+  font-size: 20px;
+}
+
+.event-preview p {
+  color: rgb(65, 65, 65);
+  font-size: 14px;
+}
