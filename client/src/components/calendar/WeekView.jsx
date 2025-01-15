@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getScrollbarWidth } from '../../utils/getScrollbarWidth';
-import { formatDateToYYYYMMDD, getDaysOfTheWeek, getPolishDayOfWeek, getWeekNumber } from '../../utils/calendarUtils';
+import { formatDateToYYYYMMDD, getDaysOfTheWeek, getHoursBetweenDates, getPolishDayOfWeek, getWeekNumber } from '../../utils/calendarUtils';
 import "../common/eventStyle.css"
 
 
@@ -189,10 +189,93 @@ const AllDayEvent = ({events}) => {
 const DayEvents = ({ events, setPreviewEvent }) => {
   if (events.length === 0) return;
 
+  const hours = [];
+  for (let i = 0; i < 24; i++) hours.push({ idx: [] });
+  
+  // Fill helper array with all events that happens in certain hour
+  events.forEach(event => {
+    const endDate = new Date(event.start);
+    endDate.setMinutes(endDate.getMinutes() + event.duration)
+    const eventHours = getHoursBetweenDates(new Date(event.start), new Date(endDate.getTime()));    
+
+    eventHours.forEach(hour => {
+      hours[hour].idx.push(event._id);
+    });
+
+    event.startHour = eventHours[0];
+  });
+
+  for (let i = 0; i < 24-1; i++) {
+    let eventsInBlock = 0;
+    let isNewBlock = false;
+    let blockIndexEnd = i;
+    let currentIndex = i + 1;
+    let blockIndexes = new Set();
+
+    if (hours[i].idx.length > 0) {
+      eventsInBlock = hours[i].idx.length;
+      hours[i].idx.forEach(idx => blockIndexes.add(idx))
+    }
+
+    while (!isNewBlock) {
+      // New block started
+      const isSameBlock = hours[currentIndex].idx.some((idx) => blockIndexes.has(idx));     
+      // console.log("some", i, currentIndex, isSameBlock);
+      
+      // console.log("warunki", hours[currentIndex].idx.length <= 0, );
+      
+
+      if (hours[currentIndex].idx.length <= 0 || currentIndex >= 24 || !(isSameBlock)) {
+        // console.log("break", i, currentIndex);
+        isNewBlock = true;
+        break;
+      } 
+
+      hours[currentIndex].idx.forEach(idx => blockIndexes.add(idx))
+      eventsInBlock++
+      blockIndexEnd = currentIndex;
+      currentIndex++; 
+    }
+
+    for (let j = i; j <= blockIndexEnd; j++) {      
+      hours[j].blockIndexEnd = blockIndexEnd;
+      hours[j].eventsInBlock = blockIndexes.size;
+      hours[j].idx = [...blockIndexes]
+    }
+
+    eventsInBlock = 0;
+    i = blockIndexEnd;
+  }
+
+  console.log(hours);
+
+
   return (
     <>
-      {events.map(event =>
-        <div key={event._id} onClick={()=>{setPreviewEvent(event)}} className={`week-event ${parseInt(event.height.slice(0, -2), 10) <= 40 ? 'thin' : ''} event-${event.color}`} style={{ top: event.topPosition, height: event.height }}>{event.name}</div>
+      {events.map(event => {
+        let index = hours[event.startHour].idx.findIndex(el => el === event._id);
+
+        let left = 0;
+        if (index > 0) {          
+          left = `calc(100% * ${index / hours[event.startHour].eventsInBlock})`
+        }
+      
+        return (
+        <div key={event._id}
+          onClick={() => { setPreviewEvent(event) }}
+          className={`week-event ${parseInt(event.height.slice(0, -2), 10) <= 40 ? 'thin' : ''} event-${event.color}`}
+            style={{
+              top: event.topPosition,
+              height: event.height,
+              left: left,
+              // transform: 'translateX(-50%)',
+              width: `calc(100% / ${hours[event.startHour].eventsInBlock})`
+            }}>
+          {event.name}
+        </div>
+        )
+      }
+        
       )}
     </>
   )

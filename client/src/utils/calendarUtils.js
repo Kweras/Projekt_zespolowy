@@ -148,3 +148,15 @@ export const formatDateToPolish = (date) => {
 
   return `${day} ${month} ${year}r.`;
 };
+
+export const getHoursBetweenDates = (startDate, endDate) => {
+  const hours = [];
+  let current = new Date(startDate);
+
+  while (current < endDate) {
+    hours.push(current.getHours());
+    current.setHours(current.getHours() + 1);
+  }
+
+  return hours;
+};
