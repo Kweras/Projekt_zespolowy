@@ -120,6 +120,10 @@
   display: block;
 }
 
+.icon-container>* {
+  cursor: pointer;
+}
+
 .close-button:hover {
   background-color: transparent;
   color: #ff4081;

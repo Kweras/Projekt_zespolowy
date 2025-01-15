@@ -1,8 +1,10 @@
 import '../../../src/App.css';
 import { Link } from 'react-router-dom';
 import "./HomePage.css";
+import { useState } from 'react';
 
 function HomePage() {
+	const [nickname, setNickname] = useState(localStorage.getItem('nickname'));
 	return (
 
 		<div className="homepage">
@@ -25,13 +27,24 @@ function HomePage() {
 				</ul>
 			</section>
 
-			<section className="homepage-register">
-				<h2>Rozpocznij już teraz!</h2>
-				<p>Załóż konto i odkryj, jak łatwo zarządzać swoim czasem.</p>
-				<Link to="/register" className="homepage-btn">
-					Zarejestruj się
-				</Link>
-			</section>
+			{!nickname ? (
+				<section className="homepage-register">
+					<h2>Rozpocznij już teraz!</h2>
+					<p>Załóż konto i odkryj, jak łatwo zarządzać swoim czasem.</p>
+					<Link to="/register" className="homepage-btn">
+						Zarejestruj się
+					</Link>
+				</section>
+			) : (
+				<section className="homepage-register">
+					<h2>Witaj, {nickname}!</h2>
+					<p>Przejdź do swojego kalendarza i zarządzaj swoim czasem.</p>
+					<Link to="/calendar" className="homepage-btn">
+						Otwórz Kalendarz
+					</Link>
+				</section>
+			)}
+
 
 		</div>
 	);

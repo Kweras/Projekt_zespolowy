@@ -69,7 +69,7 @@ function DeleteEvent({ eventId, name, type, onDeleteEvent, children }) {
             <h3 className="delete-info">Czy na pewno chcesz usunąć to wydarzenie?</h3>
             <h2>{name}</h2>
             <br></br>
-            <button type="submit" className="login-btn">Tak</button>
+            <button type="submit" className="login-btn">Usuń</button>
             {/* <button type="button" onClick={buttonHandleCloseModal}>Nie</button> */}
 
 
