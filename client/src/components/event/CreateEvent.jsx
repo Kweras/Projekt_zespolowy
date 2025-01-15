@@ -1,9 +1,9 @@
 import { useState } from "react";
 import './Event.css';
 import ColorPicker from "../ui/ColorPicker/ColorPicker";
-import { EVENTS_COLORS, formatHour, isEndDateBeforeStartDate, getDurationInMinutes } from "../../utils/calendarUtils";
+import { EVENTS_COLORS, formatHour, isEndDateBeforeStartDate, getDurationInMinutes,  } from "../../utils/calendarUtils";
 
-function CreateEvent({ time, type, start }) {
+function CreateEvent({ time, type, start, appendEvent, closeModal }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [color, setColor] = useState(EVENTS_COLORS[0].nameEnglish);
@@ -30,10 +30,12 @@ function CreateEvent({ time, type, start }) {
         return;
       }
 
+      let duration = getDurationInMinutes(startTime, endTime);
+
       event = {
         ...event,
         start: `${start}T${startTime}`,
-        duration: getDurationInMinutes(startTime, endTime),
+        duration: duration > 0 ? duration : 1,
       }
     }
 
@@ -48,15 +50,17 @@ function CreateEvent({ time, type, start }) {
           event
         }),
       });
+      
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        appendEvent(data)
 
+        if (closeModal) closeModal()
+        
         setName('');
         setDesc('');
         setColor(EVENTS_COLORS[0].nameEnglish);
         
-        window.location.reload()
       } else {
         setError('Error: Failed to create an event');
       }

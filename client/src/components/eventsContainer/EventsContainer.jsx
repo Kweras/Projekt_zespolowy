@@ -21,7 +21,7 @@ const EventsContainer = () => {
     fetchEvents();
   }, []);
 
-  const addEvent = (newEvent) => { //Callback event, learn more about
+  const addEvent = (newEvent) => { 
     setEvents((prevEvents) => [...prevEvents, newEvent]);
   };
 
@@ -43,7 +43,7 @@ const EventsContainer = () => {
   return (
     <div className="outer-container">
       <div className="create-event-form">
-        <CreateEvent onAddEvent={addEvent} />
+        <CreateEvent appendEvent={addEvent} />
       </div>
       <div className="events-container">
         {events.map(event => (

@@ -268,7 +268,7 @@
 }
 
 .month-calendar-day {
-  height: 125px;
+  min-height: 125px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -400,6 +400,6 @@
 }
 
 .event-preview p {
-  color: rgb(65, 65, 65);
+  color: gray;
   font-size: 14px;
 }

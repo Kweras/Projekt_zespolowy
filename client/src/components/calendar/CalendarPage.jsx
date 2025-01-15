@@ -137,6 +137,10 @@ const CalendarPage = () => {
     setIsPreviewShow(true);
   }
 
+  const appendEvent = (event) => {
+    setEvents(prevState => [...prevState, event])
+  }
+
   return (
     <div className='calendar-page-container' style={{padding: '20px', backgroundColor: 'white'}}>
       <header className="calendar-header">
@@ -177,9 +181,9 @@ const CalendarPage = () => {
       </header>
 
 
-      <Calendar isLoading={isLoading} setPreviewEvent={handleEventPreview} selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
+      <Calendar isLoading={isLoading} appendEvent={appendEvent} setPreviewEvent={handleEventPreview} selectedView={selectedView} currentDate={currentDate} events={events} handleModalOpen={handleModalOpen} />
 
-      {isModalShow && <CalendarForm startDate={modalStartDate} time={modalStartTime} hideModal={handleModalClose} />} 
+      {isModalShow && <CalendarForm startDate={modalStartDate} appendEvent={appendEvent} time={modalStartTime} hideModal={handleModalClose} />} 
       {isPreviewShow && <EventPreview hideModal={setIsPreviewShow} event={previewEvent} />}
       
     </div>
