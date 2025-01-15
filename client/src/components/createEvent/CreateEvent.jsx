@@ -10,12 +10,12 @@ function CreateEvent({ onAddEvent }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
-    
+
     try {
       const response = await fetch('http://localhost:3001/createEvent', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           _id: localStorage.getItem("userID"),
@@ -43,35 +43,38 @@ function CreateEvent({ onAddEvent }) {
   };
 
   return (
-    <div className="form-container">
+    <div className="create-event">
       <h2>Dodaj Wydarzenie</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
+      <form onSubmit={handleSubmit} className="create-event-form-container">
+        <div className="input-container">
           <label>
-            Nazwa:
-            <input
-              type="text"
-              value={name}
-              minLength={1}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </label>
+            Nazwa: </label>
+          <input
+            type="text"
+            value={name}
+            minLength={1}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+
         </div>
-        <div className="form-group">
+        <div className="input-container">
           <label>
-            Opis:
-            <input
-              type="text"
-              value={desc}
-              minLength={1}
-              onChange={(e) => setDesc(e.target.value)}
-              required
-            />
-          </label>
+            Opis:</label>
+          <input
+            type="text"
+            value={desc}
+            minLength={1}
+            onChange={(e) => setDesc(e.target.value)}
+            required
+          />
+
         </div>
-        <div className="form-group">
+        <div className="input-container">
           <label>Wybór koloru:</label>
+          <select>
+            <option value=""></option>
+          </select>
           <div className="radio-group">
             <label>
               <input
@@ -111,7 +114,7 @@ function CreateEvent({ onAddEvent }) {
             </label>
           </div>
         </div>
-        <button type="submit">Dodaj wydarzenie</button>
+        <button type="submit" className="login-btn">Dodaj wydarzenie</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>

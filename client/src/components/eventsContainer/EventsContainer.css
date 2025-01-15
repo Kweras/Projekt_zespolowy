@@ -1,14 +1,64 @@
 .outer-container {
   display: flex;
   width: 90%;
-  margin: 20px auto 20px auto;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px 0 20px 0;
+  gap: 20px;
 }
+
+.create-event {
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-event h2 {
+  text-align: center;
+  margin: 10px 0 10px 0;
+}
+
+.create-event-form {
+  width: 35%;
+}
+
+.overlay {
+  z-index: 4200;
+}
+
+.events-container {
+  border: 5px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 65%;
+}
+
+.create-event-form-container {
+  padding: 20px;
+}
+
 
 @media (max-width: 800px) {
   .outer-container {
     flex-direction: column-reverse;
     width: 90%;
-    margin: 20px auto 20px auto;
+  }
+
+  .create-event-form {
+    width: 100%;
+  }
+
+  .events-container {
+    width: 100%;
+  }
+
+  .events-container {
+    grid-template-columns: 1fr 1fr;
   }
 
   .form-container {
@@ -16,17 +66,8 @@
   }
 }
 
-.create-event-form {
-  width: 30%;
-}
-
-.events-container {
-  border: 5px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 70%;
+@media (max-width: 600px) {
+  .events-container {
+    grid-template-columns: 1fr;
+  }
 }

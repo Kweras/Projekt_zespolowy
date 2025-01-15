@@ -3,7 +3,6 @@
   border-radius: 8px;
   padding: 16px;
   position: relative;
-  width: 300px;
   margin: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -33,12 +32,15 @@
 .red-event {
   background-color: #fd7e7e;
 }
+
 .green-event {
   background-color: #82f78c;
 }
+
 .blue-event {
   background-color: #63daf8;
 }
-.white-event{
+
+.white-event {
   background-color: #ffffff;
 }
