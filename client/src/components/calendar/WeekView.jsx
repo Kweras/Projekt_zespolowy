@@ -243,7 +243,6 @@ const DayEvents = ({ events, setPreviewEvent }) => {
       hours[j].idx = [...blockIndexes]
     }
 
-    eventsInBlock = 0;
     i = blockIndexEnd;
   }
 
@@ -257,19 +256,20 @@ const DayEvents = ({ events, setPreviewEvent }) => {
 
         let left = 0;
         if (index > 0) {          
-          left = `calc(100% * ${index / hours[event.startHour].eventsInBlock})`
-        }
+          left = `calc((100% * ${index / hours[event.startHour].eventsInBlock}))`
+        } 
       
+        let smallText = hours[event.startHour].eventsInBlock > 3 ? 'small-text' : ''
         return (
         <div key={event._id}
           onClick={() => { setPreviewEvent(event) }}
-          className={`week-event ${parseInt(event.height.slice(0, -2), 10) <= 40 ? 'thin' : ''} event-${event.color}`}
+          className={`week-event ${smallText} ${parseInt(event.height.slice(0, -2), 10) <= 40 ? 'thin' : ''} event-${event.color}`}
             style={{
               top: event.topPosition,
               height: event.height,
               left: left,
               // transform: 'translateX(-50%)',
-              width: `calc(100% / ${hours[event.startHour].eventsInBlock})`
+              width: `calc((100% / ${hours[event.startHour].eventsInBlock}))`
             }}>
           {event.name}
         </div>

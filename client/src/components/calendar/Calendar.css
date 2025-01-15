@@ -126,7 +126,7 @@
   background-color: var(--backgroundColor);
   color: var(--color);
   border-radius: 5px;
-  width: calc(100% - 20px);
+  width: 100%;
   padding: 10px;
   font-size: 14px;
   height: 100px;
@@ -134,6 +134,12 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.week-event.small-text {
+  font-size: 12px;
 }
 
 .week-event.thin {
