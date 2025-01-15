@@ -411,3 +411,24 @@
   color: gray;
   font-size: 14px;
 }
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.buttons > div {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(232, 232, 232);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.buttons > div:hover {
+  background-color: rgb(222, 222, 222);
+}

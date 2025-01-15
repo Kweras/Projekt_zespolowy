@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { EVENTS_COLORS, formatDateToPolish, formatHour } from '../../utils/calendarUtils';
+import { FaPencilAlt } from 'react-icons/fa';
+import { ImBin } from 'react-icons/im';
+import UpdateDeleteDatedEvent from '../event/UpdateDeleteDatedEvent';
 
 export default function EventPreview({ hideModal, event }) {
+  const [showEditForm, setShowEditForm] = useState(false);
+
   if (!event) {
     hideModal();
   }
@@ -20,6 +25,7 @@ export default function EventPreview({ hideModal, event }) {
   if (!eventColor) eventColor = EVENTS_COLORS[0];
 
   return (
+    <>
     <div className='calendar-modal-container' onClick={handleModalClose}>
       <div className='calendar-modal event-preview'>
         <header>
@@ -34,7 +40,24 @@ export default function EventPreview({ hideModal, event }) {
           </aside>
         </header>
         <p>{event.desc}</p>
+                <div className='buttons'>
+          <div onClick={() => setShowEditForm(true)}>
+            <FaPencilAlt size={16} />
+          </div>
+        </div>
+        </div>
+        
       </div>
-    </div>
+      
+      {
+        showEditForm && (
+          <div className='calendar-modal-container'>
+            <div className="calendar-modal">
+                <UpdateDeleteDatedEvent close={() => setShowEditForm(false)} eventId={event._id} name={event.name} start={event.start} color={event.color} desc={event.desc} duration={event.duration} />
+            </div>
+          </div>
+          )
+        }
+    </>
   )
 }

@@ -4,14 +4,14 @@ import ColorPicker from "../ui/ColorPicker/ColorPicker";
 import { formatHour, isEndDateBeforeStartDate, getDurationInMinutes, formatDateToYYYYMMDD } from "../../utils/calendarUtils";
 
 
-function UpdateDeleteDatedEvent({ eventId, name, desc, color, start, duration }) { 
+function UpdateDeleteDatedEvent({ eventId, name, desc, color, start, duration, close }) { 
   const [_name, setName] = useState(name);
   const [_desc, setDesc] = useState(desc);
   const [_color, setColor] = useState(color);
-  const [_start, setStart] = useState(formatDateToYYYYMMDD(new Date(start.$date)));
+  const [_start, setStart] = useState(formatDateToYYYYMMDD(new Date(start)));
   const [error, setError] = useState("");
-  const [startTime, setStartTime] = useState(formatHour(new Date(start.$date)));
-  const [endTime, setEndTime] = useState(formatHour(new Date(new Date(start.$date).getTime() + duration * 60000)));
+  const [startTime, setStartTime] = useState(formatHour(new Date(start)));
+  const [endTime, setEndTime] = useState(formatHour(new Date((new Date(start)).getTime() + duration * 60000)));
 
   const handleSubmitEdit = async (event) => {
     event.preventDefault();
@@ -84,6 +84,7 @@ function UpdateDeleteDatedEvent({ eventId, name, desc, color, start, duration })
     <div className="form-container">
       <div className="form-wrapper">
         <div className="update-form">
+          <button onClick={() =>close()}>Close</button>
         <form onSubmit={handleSubmitEdit} className="edit-form">   
           <h2>Edycja wydarzenia</h2>
           <div className="form-group">
