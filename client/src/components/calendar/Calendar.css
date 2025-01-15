@@ -214,6 +214,7 @@
   width: 100%;
   top: 20px;
   z-index: 100;
+  pointer-events: none;
 }
 
 .now-element::before {
