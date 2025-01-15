@@ -138,7 +138,7 @@ Whenever
 {
   "_id": "{user_id}",
   "_eventId": "{event_id}",
-  "date": "2023-10-01T00:00:00Z",
+  "start": "2023-10-01T00:00:00Z",
   "duration": 30
 }
 ```

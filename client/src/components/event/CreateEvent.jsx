@@ -3,7 +3,7 @@ import './Event.css';
 import ColorPicker from "../ui/ColorPicker/ColorPicker";
 import { EVENTS_COLORS, formatHour, isEndDateBeforeStartDate, getDurationInMinutes } from "../../utils/calendarUtils";
 
-function CreateEvent({ onAddEvent, time, type, start }) {
+function CreateEvent({ time, type, start }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [color, setColor] = useState(EVENTS_COLORS[0].nameEnglish);

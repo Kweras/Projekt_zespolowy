@@ -55,6 +55,7 @@ const EventsContainer = () => {
           color={event.color}
           onUpdateEvent={updateEvent}
           onDeleteEvent={deleteEvent}
+          onMoveEvent={deleteEvent}
           />
         ))}
       </div>

@@ -57,6 +57,7 @@ function DeleteEvent({eventId, name, type, onDeleteEvent, children}) {
         onRequestClose={handleCloseModal}
         className="modal"
         overlayClassName="overlay"
+        appElement={document.getElementById('modalElement')}
       >
         <button type="button" onClick={buttonHandleCloseModal}>CLOSE</button>
         <div className="form-container">

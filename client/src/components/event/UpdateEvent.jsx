@@ -52,7 +52,6 @@ function UpdateEvent({eventId, name, desc, color, type, onUpdateEvent, children}
         setError('Error: Failed to update the event');
       }
     } catch (error) {
-      //console.error('Error updating event', error);
       setError('Error: Failed to update the event');
     }
   };
@@ -66,6 +65,7 @@ function UpdateEvent({eventId, name, desc, color, type, onUpdateEvent, children}
         onRequestClose={handleCloseModal}
         className="modal"
         overlayClassName="overlay"
+        appElement={document.getElementById('modalElement')}
       >
 
       <div className="form-container">

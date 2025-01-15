@@ -266,12 +266,20 @@ app.post('/deleteEvent', async (req, res) => {
 });
 
 app.post('/moveEvent', async (req, res) => {
-  const { _id, _eventId, date, duration } = req.body;
+  const { _id, _eventId, start, duration } = req.body;
+
+  if (!_id || !_eventId || start === undefined || duration === undefined) {
+    return res.status(400).send('Missing required fields!');
+  }
 
   try {
     const user = await UserModel.findById(_id);
     if (!user) {
       return res.status(404).send('User not found!');
+    }
+
+    if (!user.events || user.events.length === 0) {
+      return res.status(404).send('No events found for this user!');
     }
 
     const eventIndex = user.events.findIndex((event) => event._id.toString() === _eventId);
@@ -281,15 +289,20 @@ app.post('/moveEvent', async (req, res) => {
 
     const eventToMove = user.events[eventIndex];
 
-    if (duration === undefined || duration <= 0) {
+    if (duration <= 0) {
       return res.status(400).send('Invalid duration!');
+    }
+
+    const startDate = new Date(start);
+    if (isNaN(startDate.getTime())) {
+      return res.status(400).send('Invalid start date!');
     }
 
     const datedEvent = {
       name: eventToMove.name,
       desc: eventToMove.desc,
       color: eventToMove.color,
-      start: new Date(start),
+      start: startDate,
       duration: duration,
     };
 
@@ -304,6 +317,7 @@ app.post('/moveEvent', async (req, res) => {
     return res.status(500).send('ERROR!!!');
   }
 });
+
 
 app.get('/getEventsByDate', async (req, res) => {
   const { _id, from, to } = req.query;
