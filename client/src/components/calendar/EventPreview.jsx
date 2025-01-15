@@ -40,9 +40,12 @@ export default function EventPreview({ hideModal, event }) {
           </aside>
         </header>
         <p>{event.desc}</p>
-                <div className='buttons'>
+        <div className='buttons'>
           <div onClick={() => setShowEditForm(true)}>
             <FaPencilAlt size={16} />
+          </div>
+          <div onClick={() => setShowEditForm(true)}>
+            <ImBin size={16} />
           </div>
         </div>
         </div>
