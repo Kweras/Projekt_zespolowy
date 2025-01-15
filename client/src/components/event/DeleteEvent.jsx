@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "react-modal";
 import './Event.css';
 
-function DeleteEvent({eventId, name, type, onDeleteEvent, children}) {
+function DeleteEvent({eventId, name, onDeleteEvent, children}) {
   const [error, setError] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -33,7 +33,7 @@ function DeleteEvent({eventId, name, type, onDeleteEvent, children}) {
         body: JSON.stringify({
           _id: localStorage.getItem("userID"),
           _eventId: eventId,
-          type: parseInt(type)
+          type: 0
         }),
       });
       if (response.ok) {

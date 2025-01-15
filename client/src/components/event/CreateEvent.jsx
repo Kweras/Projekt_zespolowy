@@ -104,7 +104,7 @@ function CreateEvent({ time, type, start }) {
                   readOnly
                 />
               </label>
-            </div>
+              </div>
               <div className="form-group">
                 <label htmlFor="time">Czas:</label>
                 <div className="time-container">
@@ -112,7 +112,7 @@ function CreateEvent({ time, type, start }) {
                   <span></span>
                   <input type="time" name="start_time" id="start_time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                 </div>
-            </div>
+              </div>
             </>
           )}
         

@@ -26,8 +26,7 @@ const Event = ({ id, name, desc, color, onUpdateEvent, onDeleteEvent, onMoveEven
 
         <DeleteEvent
           eventId={id} 
-          name={name} 
-          type="0"
+          name={name}
           onDeleteEvent={onDeleteEvent}
         >
           <ImBin/>
@@ -44,7 +43,7 @@ const Event = ({ id, name, desc, color, onUpdateEvent, onDeleteEvent, onMoveEven
         </MoveEvent>
         
       </div>
-      <h2 className="name" >{name}</h2>
+      <h2 className="name">{name}</h2>
       <p className="desc">{desc}</p>
     </div>
   );

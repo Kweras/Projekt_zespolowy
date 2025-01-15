@@ -2,9 +2,24 @@ import React, { useEffect, useState } from 'react';
 import './EventsContainer.css';
 import Event from '../event/Event';
 import CreateEvent from '../event/CreateEvent';
+import UpdateDeleteDatedEvent from '../event/UpdateDeleteDatedEvent';
 
 const EventsContainer = () => {
   const [events, setEvents] = useState([]);
+
+
+  const exampleDatedEvent = {
+    "name": "Example Dated Event",
+    "desc": "And it's desc",
+    "color": "red",
+    "start": {
+      "$date": "2025-01-07T09:00:00.000Z"
+    },
+    "duration": 61,
+    "_id": {
+      "$oid": "678772c2b0d60670920f6e08"
+    }
+  }
 
   useEffect(() => {
     const _id = localStorage.getItem("userID");
@@ -59,6 +74,16 @@ const EventsContainer = () => {
           />
         ))}
       </div>
+      <br />
+      <UpdateDeleteDatedEvent 
+        eventId={exampleDatedEvent._id.$oid} 
+        name={exampleDatedEvent.name} 
+        desc={exampleDatedEvent.desc} 
+        color={exampleDatedEvent.color} 
+        start={exampleDatedEvent.start}
+        duration={exampleDatedEvent.duration}
+      />
+
     </div>
   );
 };
