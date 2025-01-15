@@ -1,11 +1,9 @@
 .event {
-  --backgroundColor: white;
-  --color: black;
+  height: fit-content;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
   position: relative;
-  width: 300px;
   margin: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: var(--backgroundColor);
@@ -40,11 +38,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 30%;
   max-width: 600px;
 }
 
@@ -111,17 +104,23 @@
   margin-right: 15px;
 }
 
-button {
-  width: 100%;
+.delete-info {
+  text-align: center;
   padding: 10px;
-  background-color: #28a745;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
 }
 
-button:hover {
-  background-color: #218838;
+.close-button {
+  background: transparent;
+  margin-left: auto;
+  border: none;
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: block;
+}
+
+.close-button:hover {
+  background-color: transparent;
+  color: #ff4081;
 }
