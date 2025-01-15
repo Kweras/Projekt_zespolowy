@@ -36,17 +36,18 @@ app.post('/register', async (req, res) => {
   }
 });
 
+
 app.put('/changeNick', async (req, res) => {
   try {
     const { _id, password, newNick } = req.body;
-    console.log(req.body);
+    console.log(req.body)
     const e = await UserModel.findOne({ _id });
     if (e != null) {
       const isMatch = await bcrypt.compare(password, e.password);
       if (isMatch) {
         e.nick = newNick;
       } else {
-        throw new Error('Password incorrect');
+        throw new Error("Password incorrect");
       }
       await e.save();
       res.status(200).send('Nick changed');
@@ -55,14 +56,15 @@ app.put('/changeNick', async (req, res) => {
     }
   } catch (error) {
     res.status(500).send('Error: ' + console.error(error));
-    throw new Error('Login or password incorrect');
+    throw new Error("Login or password incorrect")
+
   }
 });
 //linia 45, sttingspage.jsx const response = await fetch('http://localhost:3001/changeNick',
 app.put('/changePassword', async (req, res) => {
   try {
     const { _id, oldPassword, newPassword } = req.body;
-    console.log(req.body);
+    console.log(req.body)
 
     const e = await UserModel.findOne({ _id });
     if (e != null) {
@@ -78,7 +80,8 @@ app.put('/changePassword', async (req, res) => {
     }
   } catch (error) {
     res.status(500).send('Error: ' + console.error(error));
-    throw new Error('Login or password incorrect');
+    throw new Error("Login or password incorrect")
+
   }
 });
 
@@ -169,9 +172,7 @@ app.post('/createDatedEvent', async (req, res) => {
       return res.status(404).send('User not found');
     }
 
-    console.log(user);
-
-    const newEvent = user.dated_events[user.dated_events.length - 1];
+    const newEvent = user.events[user.events.length - 1];
 
     return res.status(201).json(newEvent);
   } catch (error) {
@@ -179,6 +180,7 @@ app.post('/createDatedEvent', async (req, res) => {
     return res.status(500).send('ERROR!!!');
   }
 });
+
 
 app.post('/updateEvent', async (req, res) => {
   const { _id, _eventId, updatedEvent, type } = req.body;
@@ -196,9 +198,8 @@ app.post('/updateEvent', async (req, res) => {
 
     let eventIndex;
 
-    if (type === 0) {
-      // for not dated events
-      eventIndex = user.events.findIndex((event) => event._id.toString() === _eventId);
+    if (type === 0) { // for not dated events
+      eventIndex = user.events.findIndex(event => event._id.toString() === _eventId);
 
       if (eventIndex === -1) {
         return res.status(404).send('Event not found!');
@@ -317,6 +318,7 @@ app.post('/moveEvent', async (req, res) => {
   }
 });
 
+
 app.get('/getEventsByDate', async (req, res) => {
   const { _id, from, to } = req.query;
 
@@ -340,10 +342,11 @@ app.get('/getEventsByDate', async (req, res) => {
       return res.status(404).send('User not found!');
     }
 
-    const eventsInRange = user.dated_events.filter((event) => {
+    const eventsInRange = user.dated_events.filter(event => {
       const eventStartDate = new Date(event.start);
       return eventStartDate >= fromDate && eventStartDate <= toDate;
     });
+
 
     return res.status(200).json(eventsInRange);
   } catch (error) {
@@ -351,3 +354,4 @@ app.get('/getEventsByDate', async (req, res) => {
     return res.status(500).send('ERROR!!!');
   }
 });
+
